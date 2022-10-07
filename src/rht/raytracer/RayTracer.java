@@ -45,7 +45,11 @@ public class RayTracer extends JPanel {
     private void render() {
         for (int x = 0; x < WIDTH; ++x) {
             for (int y = 0; y < HEIGHT; ++y) {
+                Ray ray = camera.rayForPixel(x * 2.0 / WIDTH - 1.0, y * 2.0 / HEIGHT - 1.0);
+                Sphere firstSphere = scene.firstIntercept(ray);
+
                 image.setRGB(x, y, (x + y) % 255);
+
             }
         }
     }

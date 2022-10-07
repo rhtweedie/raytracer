@@ -10,4 +10,13 @@ public class Sphere {
         this.radius = radius;
         this.colour = colour;
     }
+
+    /**
+     * Returns the distance at which the given ray intersects the object, or null if
+     * it never does.
+     */
+    public Double intersect(Ray ray) {
+        // TODO
+        return null;
+    }
 }
