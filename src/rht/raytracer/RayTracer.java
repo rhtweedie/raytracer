@@ -20,9 +20,19 @@ public class RayTracer extends JPanel {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Ray tracer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new RayTracer());
+        RayTracer rayTracer = new RayTracer();
+        rayTracer.render();
+        frame.add(rayTracer);
         frame.pack();
         frame.setVisible(true);
+
     }
 
+    private void render() {
+        for (int x = 0; x < WIDTH; ++x) {
+            for (int y = 0; y < HEIGHT; ++y) {
+                image.setRGB(x, y, (x + y) % 255);
+            }
+        }
+    }
 }
