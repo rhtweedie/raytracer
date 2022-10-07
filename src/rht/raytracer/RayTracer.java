@@ -14,9 +14,11 @@ public class RayTracer extends JPanel {
 
     private final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private final Scene scene;
+    private final Camera camera;
 
-    public RayTracer(Scene scene) {
+    public RayTracer(Scene scene, Camera camera) {
         this.scene = scene;
+        this.camera = camera;
         ImageIcon icon = new ImageIcon(image);
         add(new JLabel(icon));
     }
@@ -27,9 +29,12 @@ public class RayTracer extends JPanel {
         objects.add(new Sphere(new Vec3(1.0, -1.0, 5.0), 0.5, new Colour(1.0, 1.0, 0.0)));
         Scene scene = new Scene(objects);
 
+        Camera camera = new Camera(new Vec3(0.0, 0.0, -5.0), new Vec3(0.0, 0.0, 0.0), new Vec3(1.0, 0.0, 0.0),
+                new Vec3(0.0, 1.0, 0.0));
+
         JFrame frame = new JFrame("Ray tracer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        RayTracer rayTracer = new RayTracer(scene);
+        RayTracer rayTracer = new RayTracer(scene, camera);
         rayTracer.render();
         frame.add(rayTracer);
         frame.pack();
@@ -38,8 +43,6 @@ public class RayTracer extends JPanel {
     }
 
     private void render() {
-        Vec3 cameraOrigin = new Vec3(0.0, 0.0, 0.0);
-
         for (int x = 0; x < WIDTH; ++x) {
             for (int y = 0; y < HEIGHT; ++y) {
                 image.setRGB(x, y, (x + y) % 255);
