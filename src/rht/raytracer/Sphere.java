@@ -24,4 +24,8 @@ public class Sphere {
         }
         return -ray.getDirection().dot(v) - Math.sqrt(discriminant);
     }
+
+    public Colour getColour() {
+        return colour;
+    }
 }

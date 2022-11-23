@@ -48,7 +48,12 @@ public class RayTracer extends JPanel {
                 Ray ray = camera.rayForPixel(x * 2.0 / WIDTH - 1.0, y * 2.0 / HEIGHT - 1.0);
                 Sphere firstSphere = scene.firstIntercept(ray);
 
-                image.setRGB(x, y, (x + y) % 255);
+                if (firstSphere != null) {
+                    Colour sphereColour = firstSphere.getColour();
+                    image.setRGB(x, y, sphereColour.toRGBInt());
+                } else {
+                    image.setRGB(x, y, (x + y) % 255);
+                }
 
             }
         }
