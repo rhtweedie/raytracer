@@ -30,7 +30,8 @@ public class Scene {
         if (closest == null) {
             return new Colour(0, 0, 0);
         } else {
-            return closest.getColour();
+            double brightness = Math.pow(0.9, closestIntersection);
+            return closest.getColour().times(brightness);
         }
     }
 }

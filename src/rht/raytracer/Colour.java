@@ -18,6 +18,10 @@ public class Colour {
         return r << 16 | g << 8 | b;
     }
 
+    public Colour times(double num) {
+        return new Colour(r * num, g * num, b * num);
+    }
+
     private static double capChannel(double x) {
         return Math.max(0.0, Math.min(1.0, x));
     }
