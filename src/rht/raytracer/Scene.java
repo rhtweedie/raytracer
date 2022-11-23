@@ -13,7 +13,7 @@ public class Scene {
      * Returns the first object in the scene which the given ray intersects, or null
      * if none.
      */
-    public Sphere firstIntercept(Ray ray) {
+    public Colour colourForRay(Ray ray) {
         Double closestIntersection = null;
         Sphere closest = null;
 
@@ -27,6 +27,10 @@ public class Scene {
             }
         }
 
-        return closest;
+        if (closest == null) {
+            return new Colour(0, 0, 0);
+        } else {
+            return closest.getColour();
+        }
     }
 }
