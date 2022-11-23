@@ -9,4 +9,12 @@ public class Ray {
         this.origin = origin;
         this.direction = direction.normalise();
     }
+
+    public Vec3 getOrigin() {
+        return this.origin;
+    }
+
+    public Vec3 getDirection() {
+        return this.direction;
+    }
 }

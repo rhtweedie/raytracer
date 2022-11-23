@@ -27,12 +27,20 @@ public class Vec3 {
         return new Vec3(x - other.x, y - other.y, z - other.z);
     }
 
+    public double squared() {
+        return x * x + y * y + z * z;
+    }
+
     public double length() {
-        return Math.sqrt(x * x + y * y + z * z);
+        return Math.sqrt(squared());
     }
 
     /** Returns a unit vector pointing in the same direction as this one. */
     public Vec3 normalise() {
         return divide(length());
+    }
+
+    public double dot(Vec3 other) {
+        return x * other.x + y * other.y + z * other.z;
     }
 }

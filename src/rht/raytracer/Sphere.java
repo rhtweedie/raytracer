@@ -16,7 +16,12 @@ public class Sphere {
      * it never does.
      */
     public Double intersect(Ray ray) {
-        // TODO
-        return null;
+        Vec3 v = ray.getOrigin().minus(centre);
+        double dirDotV = ray.getDirection().dot(v);
+        double discriminant = dirDotV * dirDotV - v.squared() + radius * radius;
+        if (discriminant < 0) {
+            return null;
+        }
+        return -ray.getDirection().dot(v) - Math.sqrt(discriminant);
     }
 }
