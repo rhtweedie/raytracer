@@ -42,10 +42,13 @@ public class Scene {
             Vec3 directionToLight = light.getPosition().minus(intersectionPoint);
             double lightDistance = directionToLight.length();
             Vec3 unitDirectionToLight = directionToLight.normalise();
-            Colour incidentLight = light.getColour()
-                    .times(normal.dot(unitDirectionToLight) * BRIGHTNESS_CORRECTION_FACTOR
-                            / (lightDistance * lightDistance));
-            totalIncidentLight = totalIncidentLight.plus(incidentLight);
+            double dotProduct = normal.dot(unitDirectionToLight);
+            if (dotProduct > 0.0) {
+                Colour incidentLight = light.getColour()
+                        .times(dotProduct * BRIGHTNESS_CORRECTION_FACTOR
+                                / (lightDistance * lightDistance));
+                totalIncidentLight = totalIncidentLight.plus(incidentLight);
+            }
         }
         return closest.getColour().times(totalIncidentLight);
 
