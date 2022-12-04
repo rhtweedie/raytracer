@@ -17,4 +17,8 @@ public class Ray {
     public Vec3 getDirection() {
         return this.direction;
     }
+
+    public Vec3 distanceAlong(double distance) {
+        return this.origin.plus(this.direction.times(distance));
+    }
 }

@@ -25,6 +25,15 @@ public class Sphere {
         return -ray.getDirection().dot(v) - Math.sqrt(discriminant);
     }
 
+    /**
+     * Returns the normal vector on the surface of a sphere at a given point.
+     * 
+     * @param pointOnSurface The point to find the normal at
+     */
+    public Vec3 normalAtPoint(Vec3 pointOnSurface) {
+        return pointOnSurface.minus(centre).normalise();
+    }
+
     public Colour getColour() {
         return colour;
     }

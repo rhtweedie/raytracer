@@ -22,7 +22,16 @@ public class Colour {
         return new Colour(r * num, g * num, b * num);
     }
 
+    public Colour times(Colour other) {
+        return new Colour(r * other.r, g * other.g, b * other.b);
+    }
+
+    public Colour plus(Colour other) {
+        return new Colour(r + other.r, g + other.g, b + other.b);
+    }
+
     private static double capChannel(double x) {
         return Math.max(0.0, Math.min(1.0, x));
     }
+
 }

@@ -4,9 +4,11 @@ import java.util.List;
 
 public class Scene {
     private List<Sphere> objects;
+    private List<Light> lights;
 
-    public Scene(List<Sphere> objects) {
+    public Scene(List<Sphere> objects, List<Light> lights) {
         this.objects = objects;
+        this.lights = lights;
     }
 
     /**
@@ -29,9 +31,20 @@ public class Scene {
 
         if (closest == null) {
             return new Colour(0, 0, 0);
-        } else {
-            double brightness = Math.pow(0.9, closestIntersection);
-            return closest.getColour().times(brightness);
         }
+
+        Vec3 intersectionPoint = ray.distanceAlong(closestIntersection);
+        Vec3 normal = closest.normalAtPoint(intersectionPoint);
+        Colour totalIncidentLight = new Colour(0, 0, 0);
+        for (Light light : lights) {
+            Vec3 directionToLight = light.getPosition().minus(intersectionPoint);
+            double lightDistance = directionToLight.length();
+            Vec3 unitDirectionToLight = directionToLight.normalise();
+            Colour incidentLight = light.getColour()
+                    .times(normal.dot(unitDirectionToLight) / (lightDistance * lightDistance));
+            totalIncidentLight = totalIncidentLight.plus(incidentLight);
+        }
+        return closest.getColour().times(totalIncidentLight);
+
     }
 }
