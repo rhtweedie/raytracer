@@ -3,6 +3,8 @@ package rht.raytracer;
 import java.util.List;
 
 public class Scene {
+    private static final double BRIGHTNESS_CORRECTION_FACTOR = 40.0;
+
     private final List<Sphere> objects;
     private final List<Light> lights;
 
@@ -41,7 +43,8 @@ public class Scene {
             double lightDistance = directionToLight.length();
             Vec3 unitDirectionToLight = directionToLight.normalise();
             Colour incidentLight = light.getColour()
-                    .times(normal.dot(unitDirectionToLight) / (lightDistance * lightDistance));
+                    .times(normal.dot(unitDirectionToLight) * BRIGHTNESS_CORRECTION_FACTOR
+                            / (lightDistance * lightDistance));
             totalIncidentLight = totalIncidentLight.plus(incidentLight);
         }
         return closest.getColour().times(totalIncidentLight);
