@@ -3,8 +3,8 @@ package rht.raytracer;
 import java.util.List;
 
 public class Scene {
-    private List<Sphere> objects;
-    private List<Light> lights;
+    private final List<Sphere> objects;
+    private final List<Light> lights;
 
     public Scene(List<Sphere> objects, List<Light> lights) {
         this.objects = objects;
