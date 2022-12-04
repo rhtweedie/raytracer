@@ -22,7 +22,12 @@ public class Sphere {
         if (discriminant < 0) {
             return null;
         }
-        return -ray.getDirection().dot(v) - Math.sqrt(discriminant);
+        double distance = -ray.getDirection().dot(v) - Math.sqrt(discriminant);
+        if (distance >= 0) {
+            return distance;
+        } else {
+            return null;
+        }
     }
 
     /**
