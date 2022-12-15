@@ -18,6 +18,33 @@ public class Scene {
      * if none.
      */
     public Colour colourForRay(Ray ray) {
+
+        ObjectAndDistance closest = findFirstIntersection(ray);
+        if (closest == null) {
+            return new Colour(0, 0, 0);
+        }
+
+        Vec3 intersectionPoint = ray.distanceAlong(closest.distance);
+        Vec3 normal = closest.object.normalAtPoint(intersectionPoint);
+        Colour totalIncidentLight = new Colour(0, 0, 0);
+        for (Light light : lights) {
+            Vec3 directionToLight = light.getPosition().minus(intersectionPoint);
+            double lightDistance = directionToLight.length();
+            Vec3 unitDirectionToLight = directionToLight.normalise();
+            double dotProduct = normal.dot(unitDirectionToLight);
+            if (dotProduct > 0.0) {
+                Colour incidentLight = light.getColour()
+                        .times(dotProduct * BRIGHTNESS_CORRECTION_FACTOR
+                                / (lightDistance * lightDistance));
+                totalIncidentLight = totalIncidentLight.plus(incidentLight);
+            }
+        }
+        return closest.object.getColour().times(totalIncidentLight);
+
+    }
+
+    private ObjectAndDistance findFirstIntersection(Ray ray) {
+
         Double closestIntersection = null;
         Sphere closest = null;
 
@@ -32,25 +59,19 @@ public class Scene {
         }
 
         if (closest == null) {
-            return new Colour(0, 0, 0);
+            return null;
+        } else {
+            return new ObjectAndDistance(closest, closestIntersection);
         }
+    }
+}
 
-        Vec3 intersectionPoint = ray.distanceAlong(closestIntersection);
-        Vec3 normal = closest.normalAtPoint(intersectionPoint);
-        Colour totalIncidentLight = new Colour(0, 0, 0);
-        for (Light light : lights) {
-            Vec3 directionToLight = light.getPosition().minus(intersectionPoint);
-            double lightDistance = directionToLight.length();
-            Vec3 unitDirectionToLight = directionToLight.normalise();
-            double dotProduct = normal.dot(unitDirectionToLight);
-            if (dotProduct > 0.0) {
-                Colour incidentLight = light.getColour()
-                        .times(dotProduct * BRIGHTNESS_CORRECTION_FACTOR
-                                / (lightDistance * lightDistance));
-                totalIncidentLight = totalIncidentLight.plus(incidentLight);
-            }
-        }
-        return closest.getColour().times(totalIncidentLight);
+class ObjectAndDistance {
+    final Sphere object;
+    final double distance;
 
+    public ObjectAndDistance(Sphere object, double distance) {
+        this.object = object;
+        this.distance = distance;
     }
 }
