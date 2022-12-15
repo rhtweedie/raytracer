@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RayTracer extends JPanel {
-    private static final int WIDTH = 400;
-    private static final int HEIGHT = 400;
+    private static final int WIDTH = 1000;
+    private static final int HEIGHT = 1000;
 
     private final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private final Scene scene;
