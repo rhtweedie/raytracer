@@ -32,7 +32,13 @@ public class Scene {
             double lightDistance = directionToLight.length();
             Vec3 unitDirectionToLight = directionToLight.normalise();
             double dotProduct = normal.dot(unitDirectionToLight);
-            if (dotProduct > 0.0) {
+
+            // Check whether some other object is between us and the light.
+            ObjectAndDistance firstObjectTowardsLight = findFirstIntersection(
+                    new Ray(intersectionPoint, unitDirectionToLight));
+
+            if (dotProduct > 0.0
+                    && (firstObjectTowardsLight == null || firstObjectTowardsLight.distance > lightDistance)) {
                 Colour incidentLight = light.getColour()
                         .times(dotProduct * BRIGHTNESS_CORRECTION_FACTOR
                                 / (lightDistance * lightDistance));
