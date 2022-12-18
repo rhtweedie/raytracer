@@ -24,7 +24,7 @@ public class RayTracer extends JPanel {
     }
 
     public static void main(String[] args) {
-        List<Sphere> objects = new ArrayList<>();
+        List<Shape> objects = new ArrayList<>();
         List<Light> lights = new ArrayList<>();
         // Big sphere
         objects.add(new Sphere(new Vec3(0.0, 51.0, 0.0), 50.0, new Colour(1.0, 1.0, 1.0)));

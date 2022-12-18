@@ -5,10 +5,10 @@ import java.util.List;
 public class Scene {
     private static final double BRIGHTNESS_CORRECTION_FACTOR = 40.0;
 
-    private final List<Sphere> objects;
+    private final List<Shape> objects;
     private final List<Light> lights;
 
-    public Scene(List<Sphere> objects, List<Light> lights) {
+    public Scene(List<Shape> objects, List<Light> lights) {
         this.objects = objects;
         this.lights = lights;
     }
@@ -52,9 +52,9 @@ public class Scene {
     private ObjectAndDistance findFirstIntersection(Ray ray) {
 
         Double closestIntersection = null;
-        Sphere closest = null;
+        Shape closest = null;
 
-        for (Sphere object : objects) {
+        for (Shape object : objects) {
             Double distance = object.intersect(ray);
             if (distance != null) {
                 if (closestIntersection == null || distance < closestIntersection) {
@@ -73,10 +73,10 @@ public class Scene {
 }
 
 class ObjectAndDistance {
-    final Sphere object;
+    final Shape object;
     final double distance;
 
-    public ObjectAndDistance(Sphere object, double distance) {
+    public ObjectAndDistance(Shape object, double distance) {
         this.object = object;
         this.distance = distance;
     }
