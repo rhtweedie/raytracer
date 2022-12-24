@@ -20,9 +20,11 @@ public class Plane implements Shape {
             return null;
         }
         double distance = numerator / denominator;
+
         if (distance < 0) {
             return null;
         }
+
         return distance;
     }
 
