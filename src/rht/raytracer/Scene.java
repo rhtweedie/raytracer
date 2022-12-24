@@ -19,7 +19,7 @@ public class Scene {
      */
     public Colour colourForRay(Ray ray) {
 
-        ObjectAndDistance closest = findFirstIntersection(ray);
+        ObjectAndDistance closest = findFirstIntersectionExcept(ray, null);
         if (closest == null) {
             return new Colour(0, 0, 0);
         }
@@ -34,8 +34,9 @@ public class Scene {
             double dotProduct = normal.dot(unitDirectionToLight);
 
             // Check whether some other object is between us and the light.
-            ObjectAndDistance firstObjectTowardsLight = findFirstIntersection(
-                    new Ray(intersectionPoint, unitDirectionToLight));
+            // TODO: Ignore current object
+            ObjectAndDistance firstObjectTowardsLight = findFirstIntersectionExcept(
+                    new Ray(intersectionPoint, unitDirectionToLight), closest.object);
 
             if (dotProduct > 0.0
                     && (firstObjectTowardsLight == null || firstObjectTowardsLight.distance > lightDistance)) {
@@ -49,22 +50,36 @@ public class Scene {
 
     }
 
-    private ObjectAndDistance findFirstIntersection(Ray ray) {
-
+    /**
+     * Loops through all objects in the scene (except for `ignored`) to find the
+     * first one that the ray hits.
+     * 
+     * @param ray     The ray along which to find an intersection.
+     * @param ignored An object to ignore when looking for intersections, or null
+     *                for none.
+     * @return the object and the distance along the ray to it, or null if the ray
+     *         doesn't hit any objects.
+     */
+    private ObjectAndDistance findFirstIntersectionExcept(Ray ray, Shape ignored) {
         Double closestIntersection = null;
         Shape closest = null;
 
         for (Shape object : objects) {
+            if (object == ignored) {
+                continue;
+            }
             Double distance = object.intersect(ray);
-            if (distance != null) {
-                if (closestIntersection == null || distance < closestIntersection) {
-                    closestIntersection = distance;
-                    closest = object;
-                }
+            if (distance != null &&
+                    (closestIntersection == null || distance < closestIntersection)) {
+                closestIntersection = distance;
+                closest = object;
+
             }
         }
 
-        if (closest == null) {
+        if (closest == null)
+
+        {
             return null;
         } else {
             return new ObjectAndDistance(closest, closestIntersection);
