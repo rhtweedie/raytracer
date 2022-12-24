@@ -1,6 +1,7 @@
 package rht.raytracer;
 
-public class Sphere {
+public class Sphere implements Shape {
+
     private final Vec3 centre;
     private final double radius;
     private final Colour colour;
