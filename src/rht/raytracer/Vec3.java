@@ -11,6 +11,15 @@ public class Vec3 {
         this.z = z;
     }
 
+    public boolean equals(Object other) {
+        if (other instanceof Vec3) {
+            Vec3 otherVec = (Vec3) other;
+            return x == otherVec.x && y == otherVec.y && z == otherVec.z;
+        } else {
+            return false;
+        }
+    }
+
     public Vec3 times(double scalar) {
         return new Vec3(x * scalar, y * scalar, z * scalar);
     }
