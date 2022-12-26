@@ -26,9 +26,9 @@ public class SphereTest {
 
     @Test
     public void testNormalAtPoint() {
-        Sphere sphere = new Sphere(new Vec3(0, 0, 0), 1, new Colour(1, 1, 1));
+        Sphere sphere = new Sphere(new Vec3(0, 0, 0), 2, new Colour(1, 1, 1));
 
-        Vec3 normalPerpendicular = sphere.normalAtPoint(new Vec3(0, 0, 1));
+        Vec3 normalPerpendicular = sphere.normalAtPoint(new Vec3(0, 0, 2));
         assertEquals(new Vec3(0, 0, 1), normalPerpendicular);
     }
 }
