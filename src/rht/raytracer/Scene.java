@@ -2,6 +2,8 @@ package rht.raytracer;
 
 import java.util.List;
 
+import rht.raytracer.shapes.Shape;
+
 public class Scene {
     private static final double BRIGHTNESS_CORRECTION_FACTOR = 40.0;
 

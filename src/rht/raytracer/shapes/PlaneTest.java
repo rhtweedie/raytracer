@@ -1,8 +1,12 @@
-package rht.raytracer;
+package rht.raytracer.shapes;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import rht.raytracer.Colour;
+import rht.raytracer.Ray;
+import rht.raytracer.Vec3;
 
 public class PlaneTest {
 

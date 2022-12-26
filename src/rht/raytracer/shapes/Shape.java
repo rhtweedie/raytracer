@@ -1,4 +1,8 @@
-package rht.raytracer;
+package rht.raytracer.shapes;
+
+import rht.raytracer.Colour;
+import rht.raytracer.Ray;
+import rht.raytracer.Vec3;
 
 public interface Shape {
 

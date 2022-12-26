@@ -4,6 +4,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import rht.raytracer.shapes.Plane;
+import rht.raytracer.shapes.Shape;
+import rht.raytracer.shapes.Sphere;
+
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
