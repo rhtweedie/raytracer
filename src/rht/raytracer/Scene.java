@@ -6,6 +6,7 @@ import rht.raytracer.shapes.Shape;
 
 public class Scene {
     private static final double BRIGHTNESS_CORRECTION_FACTOR = 40.0;
+    private static final int RECURSION_LIMIT = 10;
 
     private final List<Shape> objects;
     private final List<Light> lights;
@@ -20,6 +21,14 @@ public class Scene {
      * if none.
      */
     public Colour colourForRay(Ray ray) {
+        return colourForRay(ray, RECURSION_LIMIT);
+    }
+
+    /**
+     * Returns the first object in the scene which the given ray intersects, or null
+     * if none.
+     */
+    public Colour colourForRay(Ray ray, int recursionLimit) {
 
         ObjectAndDistance closest = findFirstIntersectionExcept(ray, null);
         if (closest == null) {
@@ -28,6 +37,8 @@ public class Scene {
 
         Vec3 intersectionPoint = ray.distanceAlong(closest.distance);
         Vec3 normal = closest.object.getShapeType().normalAtPoint(intersectionPoint);
+
+        // Find colour from lights.
         Colour totalIncidentLight = new Colour(0, 0, 0);
         for (Light light : lights) {
             Vec3 directionToLight = light.getPosition().minus(intersectionPoint);
@@ -47,8 +58,19 @@ public class Scene {
                 totalIncidentLight = totalIncidentLight.plus(incidentLight);
             }
         }
-        return closest.object.getColour().times(totalIncidentLight);
 
+        Colour reflectedColour;
+        if (recursionLimit > 0) {
+            // Find colour from reflection.
+            Ray reflectedRay = reflectAt(ray.getDirection(), intersectionPoint, normal);
+            reflectedColour = colourForRay(reflectedRay, recursionLimit - 1);
+        } else {
+            reflectedColour = Colour.BLACK;
+        }
+
+        // Calculate total colour.
+        return closest.object.getColour().times(totalIncidentLight)
+                .plus(reflectedColour.times(closest.object.getReflectionColour()));
     }
 
     /**
@@ -85,6 +107,21 @@ public class Scene {
         } else {
             return new ObjectAndDistance(closest, closestIntersection);
         }
+    }
+
+    /**
+     * Find the reflected ray at a point on the surface of a shape about the normal.
+     *
+     * @param incidentDirection The direction of the incident ray.
+     * @param intersectionPoint The point of intersection of the ray and the surface
+     *                          of the shape.
+     * @param surfaceNormal     The normal at the point of intersection.
+     * @return The reflected ray.
+     */
+    private static Ray reflectAt(Vec3 incidentDirection, Vec3 intersectionPoint, Vec3 surfaceNormal) {
+        Vec3 reflectedDirection = incidentDirection
+                .minus(surfaceNormal.times(2 * surfaceNormal.dot(incidentDirection)));
+        return new Ray(intersectionPoint, reflectedDirection);
     }
 }
 
