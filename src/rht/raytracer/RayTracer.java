@@ -32,19 +32,20 @@ public class RayTracer extends JPanel {
         List<Shape> objects = new ArrayList<>();
         List<Light> lights = new ArrayList<>();
         // Big sphere
-        objects.add(new Sphere(new Vec3(0.0, 51.0, 0.0), 50.0, new Colour(1.0, 1.0,
+        objects.add(new Shape(new Sphere(new Vec3(0.0, 51.0, 0.0), 50.0), new Colour(1.0, 1.0,
                 1.0)));
         // Medium spheres
-        objects.add(new Sphere(new Vec3(-1.0, -1.0, 5.0), 1.0, new Colour(1.0, 0.05, 0.05)));
-        objects.add(new Sphere(new Vec3(0.5, 0.5, 0.0), 0.5, new Colour(1.0, 0.5, 0.0)));
+        objects.add(new Shape(new Sphere(new Vec3(-1.0, -1.0, 5.0), 1.0), new Colour(1.0, 0.05, 0.05)));
+        objects.add(new Shape(new Sphere(new Vec3(0.5, 0.5, 0.0), 0.5), new Colour(1.0, 0.5, 0.0)));
         // Little spheres
         for (double x = -1.6; x <= -0.5; x += 0.3) {
             for (double z = 0.0; z <= 2.0; z += 0.3) {
-                objects.add(new Sphere(new Vec3(x, 0.5, z), 0.04, new Colour(0.5, 0.5, 1.0)));
+                objects.add(new Shape(new Sphere(new Vec3(x, 0.5, z), 0.04), new Colour(0.5, 0.5, 1.0)));
             }
         }
-        // Plane!
-        objects.add(new Plane(new Vec3(0.0, 1.02, 0.0), new Vec3(0.0, -1.0, 0.0), new Colour(1.0, 0.7, 0.9)));
+        // Plane
+        objects.add(
+                new Shape(new Plane(new Vec3(0.0, 1.02, 0.0), new Vec3(0.0, -1.0, 0.0)), new Colour(1.0, 0.7, 0.9)));
         // Lights
         lights.add(new Light(new Vec3(0.0, -5.0, -5.0), new Colour(1.0, 1.0, 1.0)));
         lights.add(new Light(new Vec3(-1.0, 0.7, 1.0), new Colour(0.0, 0.3, 0.0)));

@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import rht.raytracer.Colour;
 import rht.raytracer.Ray;
 import rht.raytracer.Vec3;
 
@@ -12,7 +11,7 @@ public class SphereTest {
 
     @Test
     public void testIntersect() {
-        Sphere sphere = new Sphere(new Vec3(0, 0, 0), 1, new Colour(1, 1, 1));
+        Sphere sphere = new Sphere(new Vec3(0, 0, 0), 1);
 
         double distancePerpendicular = sphere.intersect(new Ray(new Vec3(0, -5, 0), new Vec3(0, 1, 0)));
         assertEquals(4, distancePerpendicular, 0.000001);
@@ -30,7 +29,7 @@ public class SphereTest {
 
     @Test
     public void testNormalAtPoint() {
-        Sphere sphere = new Sphere(new Vec3(0, 0, 0), 2, new Colour(1, 1, 1));
+        Sphere sphere = new Sphere(new Vec3(0, 0, 0), 2);
 
         Vec3 normalPerpendicular = sphere.normalAtPoint(new Vec3(0, 0, 2));
         assertEquals(new Vec3(0, 0, 1), normalPerpendicular);

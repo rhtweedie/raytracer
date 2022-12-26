@@ -1,19 +1,16 @@
 package rht.raytracer.shapes;
 
-import rht.raytracer.Colour;
 import rht.raytracer.Ray;
 import rht.raytracer.Vec3;
 
-public class Sphere implements Shape {
+public class Sphere implements ShapeType {
 
     private final Vec3 centre;
     private final double radius;
-    private final Colour colour;
 
-    public Sphere(Vec3 centre, double radius, Colour colour) {
+    public Sphere(Vec3 centre, double radius) {
         this.centre = centre;
         this.radius = radius;
-        this.colour = colour;
     }
 
     /**
@@ -42,9 +39,5 @@ public class Sphere implements Shape {
      */
     public Vec3 normalAtPoint(Vec3 pointOnSurface) {
         return pointOnSurface.minus(centre).normalise();
-    }
-
-    public Colour getColour() {
-        return colour;
     }
 }

@@ -1,19 +1,16 @@
 package rht.raytracer.shapes;
 
-import rht.raytracer.Colour;
 import rht.raytracer.Ray;
 import rht.raytracer.Vec3;
 
-public class Plane implements Shape {
+public class Plane implements ShapeType {
 
     private final Vec3 centre;
     private final Vec3 normal;
-    private final Colour colour;
 
-    public Plane(Vec3 centre, Vec3 normal, Colour colour) {
+    public Plane(Vec3 centre, Vec3 normal) {
         this.centre = centre;
         this.normal = normal;
-        this.colour = colour;
     }
 
     @Override
@@ -36,10 +33,4 @@ public class Plane implements Shape {
     public Vec3 normalAtPoint(Vec3 pointOnSurface) {
         return normal;
     }
-
-    @Override
-    public Colour getColour() {
-        return colour;
-    }
-
 }

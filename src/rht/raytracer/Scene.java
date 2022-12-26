@@ -27,7 +27,7 @@ public class Scene {
         }
 
         Vec3 intersectionPoint = ray.distanceAlong(closest.distance);
-        Vec3 normal = closest.object.normalAtPoint(intersectionPoint);
+        Vec3 normal = closest.object.getShapeType().normalAtPoint(intersectionPoint);
         Colour totalIncidentLight = new Colour(0, 0, 0);
         for (Light light : lights) {
             Vec3 directionToLight = light.getPosition().minus(intersectionPoint);
@@ -70,7 +70,7 @@ public class Scene {
             if (object == ignored) {
                 continue;
             }
-            Double distance = object.intersect(ray);
+            Double distance = object.getShapeType().intersect(ray);
             if (distance != null &&
                     (closestIntersection == null || distance < closestIntersection)) {
                 closestIntersection = distance;
