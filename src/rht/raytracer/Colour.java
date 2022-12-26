@@ -14,6 +14,15 @@ public class Colour {
         this.b = b;
     }
 
+    public boolean equals(Object other) {
+        if (other instanceof Colour) {
+            Colour otherColour = (Colour) other;
+            return r == otherColour.r && g == otherColour.g && b == otherColour.b;
+        } else {
+            return false;
+        }
+    }
+
     public int toRGBInt() {
         int r = (int) (capChannel(this.r) * 255);
         int g = (int) (capChannel(this.g) * 255);

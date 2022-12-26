@@ -60,7 +60,7 @@ public class Scene {
         }
 
         Colour reflectedColour;
-        if (recursionLimit > 0) {
+        if (recursionLimit > 0 && !closest.object.getReflectionColour().equals(Colour.BLACK)) {
             // Find colour from reflection.
             Ray reflectedRay = reflectAt(ray.getDirection(), intersectionPoint, normal);
             reflectedColour = colourForRay(reflectedRay, recursionLimit - 1);
