@@ -36,7 +36,6 @@ public class Scene {
             double dotProduct = normal.dot(unitDirectionToLight);
 
             // Check whether some other object is between us and the light.
-            // TODO: Ignore current object
             ObjectAndDistance firstObjectTowardsLight = findFirstIntersectionExcept(
                     new Ray(intersectionPoint, unitDirectionToLight), closest.object);
 
