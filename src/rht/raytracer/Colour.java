@@ -1,6 +1,9 @@
 package rht.raytracer;
 
 public class Colour {
+    public static final Colour BLACK = new Colour(0.0, 0.0, 0.0);
+    public static final Colour WHITE = new Colour(1.0, 1.0, 1.0);
+
     public double r;
     public double g;
     public double b;
