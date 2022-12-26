@@ -43,9 +43,13 @@ public class RayTracer extends JPanel {
                 objects.add(new Shape(new Sphere(new Vec3(x, 0.5, z), 0.04), new Colour(0.5, 0.5, 1.0)));
             }
         }
-        // Plane
+        // Bottom plane
         objects.add(
                 new Shape(new Plane(new Vec3(0.0, 1.02, 0.0), new Vec3(0.0, -1.0, 0.0)), new Colour(1.0, 0.7, 0.9)));
+        // Right plane
+        objects.add(new Shape(new Plane(new Vec3(1.5, 0.0, 0.0), new Vec3(-1.0, 0.0, 0.0)), new Colour(1, 1, 1)));
+        // Back plane
+        objects.add(new Shape(new Plane(new Vec3(0.0, 0.0, 10.0), new Vec3(0.0, 0.0, -1.0)), new Colour(1, 1, 1)));
         // Lights
         lights.add(new Light(new Vec3(0.0, -5.0, -5.0), new Colour(1.0, 1.0, 1.0)));
         lights.add(new Light(new Vec3(-1.0, 0.7, 1.0), new Colour(0.0, 0.3, 0.0)));
