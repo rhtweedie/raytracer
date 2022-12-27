@@ -21,16 +21,16 @@ public class Scene {
      * if none.
      */
     public Colour colourForRay(Ray ray) {
-        return colourForRay(ray, RECURSION_LIMIT);
+        return colourForRay(ray, RECURSION_LIMIT, null);
     }
 
     /**
      * Returns the first object in the scene which the given ray intersects, or null
      * if none.
      */
-    public Colour colourForRay(Ray ray, int recursionLimit) {
+    public Colour colourForRay(Ray ray, int recursionLimit, Shape ignored) {
 
-        ObjectAndDistance closest = findFirstIntersectionExcept(ray, null);
+        ObjectAndDistance closest = findFirstIntersectionExcept(ray, ignored);
         if (closest == null) {
             return new Colour(0, 0, 0);
         }
@@ -63,7 +63,7 @@ public class Scene {
         if (recursionLimit > 0 && !closest.object.getReflectionColour().equals(Colour.BLACK)) {
             // Find colour from reflection.
             Ray reflectedRay = reflectAt(ray.getDirection(), intersectionPoint, normal);
-            reflectedColour = colourForRay(reflectedRay, recursionLimit - 1);
+            reflectedColour = colourForRay(reflectedRay, recursionLimit - 1, closest.object);
         } else {
             reflectedColour = Colour.BLACK;
         }
