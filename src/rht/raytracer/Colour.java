@@ -1,6 +1,9 @@
 package rht.raytracer;
 
 public class Colour {
+    public static final Colour BLACK = new Colour(0.0, 0.0, 0.0);
+    public static final Colour WHITE = new Colour(1.0, 1.0, 1.0);
+
     public double r;
     public double g;
     public double b;
@@ -9,6 +12,15 @@ public class Colour {
         this.r = r;
         this.g = g;
         this.b = b;
+    }
+
+    public boolean equals(Object other) {
+        if (other instanceof Colour) {
+            Colour otherColour = (Colour) other;
+            return r == otherColour.r && g == otherColour.g && b == otherColour.b;
+        } else {
+            return false;
+        }
     }
 
     public int toRGBInt() {
