@@ -17,16 +17,22 @@ public class Scene {
     }
 
     /**
-     * Returns the first object in the scene which the given ray intersects, or null
-     * if none.
+     * Returns the colour of the first object in the scene which a ray intersects,
+     * or null if none.
      */
     public Colour colourForRay(Ray ray) {
         return colourForRay(ray, RECURSION_LIMIT, null);
     }
 
     /**
-     * Returns the first object in the scene which the given ray intersects, or null
-     * if none.
+     * Returns the colour of the first object in the scene which a ray intersects,
+     * or null if none.
+     * 
+     * @param ray            The ray along which to find the intersection.
+     * @param recursionLimit The maximum number of reflections.
+     * @param ignored        A shape to be ignored.
+     * @return The colour of the ray, considering shape colour, lights, and
+     *         reflectivity.
      */
     public Colour colourForRay(Ray ray, int recursionLimit, Shape ignored) {
 
