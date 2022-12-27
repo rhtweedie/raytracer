@@ -32,7 +32,8 @@ public class RayTracer extends JPanel {
         List<Shape> objects = new ArrayList<>();
         List<Light> lights = new ArrayList<>();
         // Medium spheres
-        objects.add(new Shape(new Sphere(new Vec3(-1.0, -1.0, 5.0), 1.0), Colour.BLACK, Colour.WHITE));
+        objects.add(new Shape(new Sphere(new Vec3(-1.0, -1.0, 5.0), 1.0), new Colour(0.2, 0.1, 0.1),
+                new Colour(0.9, 0.3, 0.1)));
         objects.add(new Shape(new Sphere(new Vec3(0.5, 0.5, 0.0), 0.5), new Colour(1.0, 0.5, 0.0)));
         // Little spheres
         for (double x = -1.6; x <= -0.5; x += 0.3) {
@@ -42,10 +43,12 @@ public class RayTracer extends JPanel {
         }
         // Bottom plane
         objects.add(
-                new Shape(new Plane(new Vec3(0.0, 1.02, 0.0), new Vec3(0.0, -1.0, 0.0)), Colour.BLACK, Colour.WHITE));
+                new Shape(new Plane(new Vec3(0.0, 1.02, 0.0), new Vec3(0.0, -1.0, 0.0)), new Colour(0.8, 0.6, 0.8),
+                        new Colour(0.7, 0.7, 0.7)));
         // Right plane
-        objects.add(new Shape(new Plane(new Vec3(1.5, 0.0, 0.0), new Vec3(-1.0, 0.0, 0.0)), new Colour(0.5, 0.5, 0.5),
-                new Colour(0.5, 0.5, 0.5)));
+        objects.add(
+                new Shape(new Plane(new Vec3(1.5, 0.0, 0.0), new Vec3(-1.0, 0.0, 0.0)),
+                        Colour.WHITE));
         // Back plane
         objects.add(new Shape(new Plane(new Vec3(0.0, 0.0, 10.0), new Vec3(0.0, 0.0, -1.0)), Colour.WHITE));
         // Lights
