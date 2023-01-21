@@ -2,6 +2,7 @@ package rht.raytracer;
 
 import java.util.List;
 
+import rht.raytracer.maths.Vec3;
 import rht.raytracer.shapes.Shape;
 
 public class Scene {

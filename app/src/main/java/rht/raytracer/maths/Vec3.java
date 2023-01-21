@@ -1,4 +1,4 @@
-package rht.raytracer;
+package rht.raytracer.maths;
 
 public class Vec3 {
     public double x;

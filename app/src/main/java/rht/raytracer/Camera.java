@@ -1,5 +1,7 @@
 package rht.raytracer;
 
+import rht.raytracer.maths.Vec3;
+
 public class Camera {
     private final Vec3 focalPoint;
     private final Vec3 frameCentre;

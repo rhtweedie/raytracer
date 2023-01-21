@@ -1,7 +1,7 @@
 package rht.raytracer.shapes;
 
 import rht.raytracer.Ray;
-import rht.raytracer.Vec3;
+import rht.raytracer.maths.Vec3;
 
 public class Sphere implements ShapeType {
 

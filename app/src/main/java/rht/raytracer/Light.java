@@ -1,5 +1,7 @@
 package rht.raytracer;
 
+import rht.raytracer.maths.Vec3;
+
 public class Light {
 
     private final Colour colour;

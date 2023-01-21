@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import rht.raytracer.maths.Vec3;
 import rht.raytracer.shapes.Plane;
 import rht.raytracer.shapes.Shape;
 import rht.raytracer.shapes.Sphere;

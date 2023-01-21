@@ -1,5 +1,7 @@
 package rht.raytracer;
 
+import rht.raytracer.maths.Vec3;
+
 public class Ray {
     private Vec3 origin;
     /** Unit vector. */

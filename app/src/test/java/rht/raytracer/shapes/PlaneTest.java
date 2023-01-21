@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import rht.raytracer.Ray;
-import rht.raytracer.Vec3;
+import rht.raytracer.maths.Vec3;
 
 public class PlaneTest {
 
