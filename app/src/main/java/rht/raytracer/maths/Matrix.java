@@ -17,4 +17,28 @@ public class Matrix {
             return false;
         }
     }
+
+    public Matrix times(Matrix other) {
+        int firstRows = values.length;
+        int firstColumns = values[0].length;
+        int secondRows = other.values.length;
+        int secondColumns = other.values[0].length;
+        if (firstColumns != secondRows) {
+            throw new IllegalArgumentException(
+                    "Number of rows in second matrix must equal number of columns in first matrix.");
+        }
+
+        double[][] result = new double[firstRows][secondColumns];
+        for (int firstRow = 0; firstRow < firstRows; ++firstRow) {
+            for (int secondColumn = 0; secondColumn < secondColumns; ++secondColumn) {
+                double sum = 0.0;
+                for (int i = 0; i < firstColumns; ++i) {
+                    sum += values[firstRow][i] * other.values[i][secondColumn];
+                }
+                result[firstRow][secondColumn] = sum;
+            }
+        }
+
+        return new Matrix(result);
+    }
 }
