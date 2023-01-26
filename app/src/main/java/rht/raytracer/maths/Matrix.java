@@ -18,6 +18,14 @@ public class Matrix {
         }
     }
 
+    public String toString() {
+        String s = "";
+        for (double[] row : values) {
+            s += Arrays.toString(row) + "\n";
+        }
+        return s;
+    }
+
     public Matrix times(Matrix other) {
         int firstRows = values.length;
         int firstColumns = values[0].length;
