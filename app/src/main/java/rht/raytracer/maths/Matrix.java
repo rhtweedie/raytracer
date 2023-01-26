@@ -3,6 +3,8 @@ package rht.raytracer.maths;
 import java.util.Arrays;
 
 public class Matrix {
+    private static double EPSILON = 1e-5;
+
     private final double[][] values;
 
     public Matrix(double[][] values) {
@@ -51,6 +53,45 @@ public class Matrix {
     }
 
     public Matrix inverse() {
-        return null;
+        double[][] working = deepCopy(values);
+
+        double determinant = 1.0;
+        for (int p = 0; p < working.length; ++p) {
+            double pivot = working[p][p];
+            if (Math.abs(pivot) < EPSILON) {
+                throw new IllegalArgumentException("Matrix is not invertible.");
+            }
+
+            determinant *= pivot;
+
+            // Update pivot column
+            for (int i = 0; i < working.length; ++i) {
+                working[i][p] /= -pivot;
+            }
+            // Update pivot row
+            for (int j = 0; j < working.length; ++j) {
+                working[p][j] /= pivot;
+            }
+            // Update other values
+            for (int i = 0; i < working.length; ++i) {
+                for (int j = 0; j < working.length; ++j) {
+                    if (i != p && j != p) {
+                        working[i][j] += working[p][j] * working[i][p];
+                    }
+                }
+            }
+            // Update pivot value
+            working[p][p] = 1 / pivot;
+        }
+
+        return new Matrix(working);
+    }
+
+    private static double[][] deepCopy(double[][] values) {
+        double[][] copy = new double[values.length][];
+        for (int i = 0; i < values.length; ++i) {
+            copy[i] = values[i].clone();
+        }
+        return copy;
     }
 }
