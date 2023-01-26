@@ -41,4 +41,8 @@ public class Matrix {
 
         return new Matrix(result);
     }
+
+    public Matrix inverse() {
+        return null;
+    }
 }

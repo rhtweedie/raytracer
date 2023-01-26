@@ -25,4 +25,13 @@ public class MatrixTest {
         assertEquals(a.times(b), expectedAB);
         assertEquals(b.times(a), expectedBA);
     }
+
+    @Test
+    public void inverse() {
+        Matrix a = new Matrix(new double[][] { new double[] { 9, 6 }, new double[] { 5, 7 } });
+        Matrix inverseA = a.inverse();
+        Matrix identity = new Matrix(new double[][] { new double[] { 1, 0 }, new double[] { 0, 1 } });
+
+        assertEquals(inverseA.times(a), identity);
+    }
 }
