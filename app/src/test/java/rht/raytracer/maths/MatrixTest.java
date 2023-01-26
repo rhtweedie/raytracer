@@ -31,7 +31,7 @@ public class MatrixTest {
     }
 
     @Test
-    public void inverse() {
+    public void invertTwo() {
         Matrix a = new Matrix(new double[][] { new double[] { 9, 6 }, new double[] { 5, 7 } });
         Matrix inverseA = a.inverse();
         Matrix identity = new Matrix(new double[][] { new double[] { 1, 0 }, new double[] { 0, 1 } });
@@ -61,6 +61,21 @@ public class MatrixTest {
         Vec3 vector = new Vec3(5.0, 6.0, -7.0);
 
         assertVecEquals(new Vec3(5.0, 7.0, 6.0), scale.times(vector), EPSILON);
+    }
 
+    public void invertFour() {
+        Matrix a = new Matrix(new double[][] {
+                new double[] { 9, 6, 3, 5 },
+                new double[] { 5, 7, 3, 4 },
+                new double[] { 2, 6, 7, 1 },
+                new double[] { 5, 8, 9, 53 }, });
+        Matrix inverseA = a.inverse();
+        Matrix identity = new Matrix(new double[][] {
+                new double[] { 1, 0, 0, 0 },
+                new double[] { 0, 1, 0, 0 },
+                new double[] { 0, 0, 1, 0 },
+                new double[] { 0, 0, 0, 1 } });
+
+        assertMatrixEquals(identity, inverseA.times(a), EPSILON);
     }
 }
