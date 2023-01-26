@@ -68,10 +68,6 @@ public class Matrix {
             for (int i = 0; i < working.length; ++i) {
                 working[i][p] /= -pivot;
             }
-            // Update pivot row
-            for (int j = 0; j < working.length; ++j) {
-                working[p][j] /= pivot;
-            }
             // Update other values
             for (int i = 0; i < working.length; ++i) {
                 for (int j = 0; j < working.length; ++j) {
@@ -79,6 +75,10 @@ public class Matrix {
                         working[i][j] += working[p][j] * working[i][p];
                     }
                 }
+            }
+            // Update pivot row
+            for (int j = 0; j < working.length; ++j) {
+                working[p][j] /= pivot;
             }
             // Update pivot value
             working[p][p] = 1 / pivot;
