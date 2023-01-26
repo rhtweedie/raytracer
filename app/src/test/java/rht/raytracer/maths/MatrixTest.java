@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class MatrixTest {
+    private static final double EPSILON = 1e-5;
+
     @Test
     public void identityTimes() {
         Matrix a = new Matrix(new double[][] { new double[] { 1, 0 }, new double[] { 0, 1 } });
@@ -32,6 +34,16 @@ public class MatrixTest {
         Matrix inverseA = a.inverse();
         Matrix identity = new Matrix(new double[][] { new double[] { 1, 0 }, new double[] { 0, 1 } });
 
-        assertEquals(identity, inverseA.times(a));
+        assertMatrixEquals(identity, inverseA.times(a));
+    }
+
+    private void assertMatrixEquals(Matrix expected, Matrix actual) {
+        assertEquals(expected.values.length, actual.values.length);
+        for (int i = 0; i < expected.values.length; ++i) {
+            assertEquals(expected.values[i].length, actual.values[i].length);
+            for (int j = 0; j < expected.values[i].length; ++j) {
+                assertEquals(expected.values[i][j], actual.values[i][j], EPSILON);
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Matrix {
     private static double EPSILON = 1e-5;
 
-    private final double[][] values;
+    final double[][] values;
 
     public Matrix(double[][] values) {
         this.values = values;
