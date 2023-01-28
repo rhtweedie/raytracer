@@ -11,6 +11,45 @@ public class Matrix {
         this.values = values;
     }
 
+    /**
+     * Constructs a transformation matrix to translate by the given offset.
+     */
+    public static Matrix translation(double x, double y, double z) {
+        return null;
+    }
+
+    /**
+     * Constructs a transformation matrix to scale about the origin by the given
+     * ratios.
+     */
+    public static Matrix scale(double x, double y, double z) {
+        return null;
+    }
+
+    /**
+     * Constructs a transformation matrix to rotate around the X axis by the given
+     * number of degrees.
+     */
+    public static Matrix rotateX(double degrees) {
+        return null;
+    }
+
+    /**
+     * Constructs a transformation matrix to rotate around the Y axis by the given
+     * number of degrees.
+     */
+    public static Matrix rotateY(double degrees) {
+        return null;
+    }
+
+    /**
+     * Constructs a transformation matrix to rotate around the Z axis by the given
+     * number of degrees.
+     */
+    public static Matrix rotateZ(double degrees) {
+        return null;
+    }
+
     public boolean equals(Object other) {
         if (other instanceof Matrix) {
             Matrix otherMatrix = (Matrix) other;
@@ -50,6 +89,13 @@ public class Matrix {
         }
 
         return new Matrix(result);
+    }
+
+    /**
+     * Multiplies this matrix by the given vector, and returns the result.
+     */
+    public Vec3 times(Vec3 vector) {
+        return null;
     }
 
     public Matrix inverse() {
