@@ -23,7 +23,10 @@ public class Matrix {
      * ratios.
      */
     public static Matrix scale(double x, double y, double z) {
-        return null;
+        return new Matrix(new double[][] {
+                new double[] { x, 0, 0 },
+                new double[] { 0, y, 0 },
+                new double[] { 0, 0, z } });
     }
 
     /**
@@ -95,7 +98,21 @@ public class Matrix {
      * Multiplies this matrix by the given vector, and returns the result.
      */
     public Vec3 times(Vec3 vector) {
-        return null;
+        int firstRows = values.length;
+        int firstColumns = values[0].length;
+        if (firstColumns != 3 || firstRows != 3) {
+            throw new IllegalArgumentException(
+                    "Number of rows in second matrix and number of columns in first matrix must be three.");
+        }
+
+        double[] result = new double[firstRows];
+        for (int firstRow = 0; firstRow < firstRows; ++firstRow) {
+            double sum = (values[firstRow][0] * vector.x) + (values[firstRow][1] * vector.y)
+                    + (values[firstRow][2] * vector.z);
+            result[firstRow] = sum;
+        }
+
+        return new Vec3(result[0], result[1], result[2]);
     }
 
     public Matrix inverse() {
