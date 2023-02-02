@@ -11,6 +11,69 @@ public class Matrix {
         this.values = values;
     }
 
+    /**
+     * Constructs a transformation matrix to translate by the given offset.
+     */
+    public static Matrix translation(double x, double y, double z) {
+        return new Matrix(new double[][] {
+                new double[] { 1, 0, 0, x },
+                new double[] { 0, 1, 0, y },
+                new double[] { 0, 0, 1, z },
+                new double[] { 0, 0, 0, 1 } });
+    }
+
+    /**
+     * Constructs a transformation matrix to scale about the origin by the given
+     * ratios.
+     */
+    public static Matrix scale(double x, double y, double z) {
+        return new Matrix(new double[][] {
+                new double[] { x, 0, 0, 0 },
+                new double[] { 0, y, 0, 0 },
+                new double[] { 0, 0, z, 0 },
+                new double[] { 0, 0, 0, 1 } });
+    }
+
+    /**
+     * Constructs a transformation matrix to rotate around the X axis by the given
+     * number of degrees.
+     */
+    public static Matrix rotateX(double degrees) {
+        double radians = degrees * Math.PI / 180;
+        return new Matrix(new double[][] {
+                new double[] { 1, 0, 0, 0 },
+                new double[] { 0, Math.cos(radians), -Math.sin(radians), 0 },
+                new double[] { 0, Math.sin(radians), Math.cos(radians), 0 },
+                new double[] { 0, 0, 0, 1 } });
+
+    }
+
+    /**
+     * Constructs a transformation matrix to rotate around the Y axis by the given
+     * number of degrees.
+     */
+    public static Matrix rotateY(double degrees) {
+        double radians = degrees * Math.PI / 180;
+        return new Matrix(new double[][] {
+                new double[] { Math.cos(radians), 0, Math.sin(radians), 0 },
+                new double[] { 0, 1, 0, 0 },
+                new double[] { -Math.sin(radians), 0, Math.cos(radians), 0 },
+                new double[] { 0, 0, 0, 1 } });
+    }
+
+    /**
+     * Constructs a transformation matrix to rotate around the Z axis by the given
+     * number of degrees.
+     */
+    public static Matrix rotateZ(double degrees) {
+        double radians = degrees * Math.PI / 180;
+        return new Matrix(new double[][] {
+                new double[] { Math.cos(radians), -Math.sin(radians), 0, 0 },
+                new double[] { Math.sin(radians), Math.cos(radians), 0, 0 },
+                new double[] { 0, 0, 1, 0 },
+                new double[] { 0, 0, 0, 1 } });
+    }
+
     public boolean equals(Object other) {
         if (other instanceof Matrix) {
             Matrix otherMatrix = (Matrix) other;
@@ -50,6 +113,25 @@ public class Matrix {
         }
 
         return new Matrix(result);
+    }
+
+    /**
+     * Multiplies this matrix by the given vector, and returns the result.
+     */
+    public Vec3 times(Vec3 vector) {
+        if (values.length != 4 || values[0].length != 4) {
+            throw new IllegalArgumentException(
+                    "Only 4x4 matrices can be multiplied by vectors.");
+        }
+
+        double[] result = new double[3];
+        for (int row = 0; row < 3; ++row) {
+            double sum = values[row][0] * vector.x + values[row][1] * vector.y + values[row][2] * vector.z
+                    + values[row][3];
+            result[row] = sum;
+        }
+
+        return new Vec3(result[0], result[1], result[2]);
     }
 
     public Matrix inverse() {
