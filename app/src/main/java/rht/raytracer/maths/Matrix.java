@@ -34,7 +34,12 @@ public class Matrix {
      * number of degrees.
      */
     public static Matrix rotateX(double degrees) {
-        return null;
+        double radians = degrees * Math.PI / 180;
+        return new Matrix(new double[][] {
+                new double[] { 1, 0, 0 },
+                new double[] { 0, Math.cos(radians), -Math.sin(radians) },
+                new double[] { 0, Math.sin(radians), Math.cos(radians) } });
+
     }
 
     /**
@@ -42,7 +47,11 @@ public class Matrix {
      * number of degrees.
      */
     public static Matrix rotateY(double degrees) {
-        return null;
+        double radians = degrees * Math.PI / 180;
+        return new Matrix(new double[][] {
+                new double[] { Math.cos(radians), 0, Math.sin(radians) },
+                new double[] { 0, 1, 0 },
+                new double[] { -Math.sin(radians), 0, Math.cos(radians) } });
     }
 
     /**
@@ -50,7 +59,11 @@ public class Matrix {
      * number of degrees.
      */
     public static Matrix rotateZ(double degrees) {
-        return null;
+        double radians = degrees * Math.PI / 180;
+        return new Matrix(new double[][] {
+                new double[] { Math.cos(radians), -Math.sin(radians), 0 },
+                new double[] { Math.sin(radians), Math.cos(radians), 0 },
+                new double[] { 0, 0, 1 } });
     }
 
     public boolean equals(Object other) {

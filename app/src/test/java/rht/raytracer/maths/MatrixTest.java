@@ -58,7 +58,7 @@ public class MatrixTest {
         Matrix scale = Matrix.rotateX(90);
         Vec3 vector = new Vec3(5.0, 6.0, -7.0);
 
-        assertVecEquals(new Vec3(5.0, -7.0, -6.0), scale.times(vector));
+        assertVecEquals(new Vec3(5.0, 7.0, 6.0), scale.times(vector));
 
     }
 
