@@ -134,6 +134,23 @@ public class Matrix {
         return new Vec3(result[0], result[1], result[2]);
     }
 
+    /**
+     * Multiplies the first 3 rows and columns of this matrix by the given vector,
+     * and returns the result.
+     *
+     * This performs only the linear part of the affine transformation.
+     */
+    public Vec3 linearTimes(Vec3 vector) {
+        if (values.length != 4 || values[0].length != 4) {
+            throw new IllegalArgumentException(
+                    "Only 4x4 matrices can be multiplied by vectors.");
+        }
+
+        return new Vec3(values[0][0] * vector.x + values[0][1] * vector.y + values[0][2] * vector.z,
+                values[1][0] * vector.x + values[1][1] * vector.y + values[1][2] * vector.z,
+                values[2][0] * vector.x + values[2][1] * vector.y + values[2][2] * vector.z);
+    }
+
     public Matrix inverse() {
         double[][] working = deepCopy(values);
 
