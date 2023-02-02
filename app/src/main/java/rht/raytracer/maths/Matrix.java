@@ -15,7 +15,11 @@ public class Matrix {
      * Constructs a transformation matrix to translate by the given offset.
      */
     public static Matrix translation(double x, double y, double z) {
-        return null;
+        return new Matrix(new double[][] {
+                new double[] { 1, 0, 0, x },
+                new double[] { 0, 1, 0, y },
+                new double[] { 0, 0, 1, z },
+                new double[] { 0, 0, 0, 1 } });
     }
 
     /**
@@ -24,9 +28,10 @@ public class Matrix {
      */
     public static Matrix scale(double x, double y, double z) {
         return new Matrix(new double[][] {
-                new double[] { x, 0, 0 },
-                new double[] { 0, y, 0 },
-                new double[] { 0, 0, z } });
+                new double[] { x, 0, 0, 0 },
+                new double[] { 0, y, 0, 0 },
+                new double[] { 0, 0, z, 0 },
+                new double[] { 0, 0, 0, 1 } });
     }
 
     /**
@@ -36,9 +41,10 @@ public class Matrix {
     public static Matrix rotateX(double degrees) {
         double radians = degrees * Math.PI / 180;
         return new Matrix(new double[][] {
-                new double[] { 1, 0, 0 },
-                new double[] { 0, Math.cos(radians), -Math.sin(radians) },
-                new double[] { 0, Math.sin(radians), Math.cos(radians) } });
+                new double[] { 1, 0, 0, 0 },
+                new double[] { 0, Math.cos(radians), -Math.sin(radians), 0 },
+                new double[] { 0, Math.sin(radians), Math.cos(radians), 0 },
+                new double[] { 0, 0, 0, 1 } });
 
     }
 
@@ -49,9 +55,10 @@ public class Matrix {
     public static Matrix rotateY(double degrees) {
         double radians = degrees * Math.PI / 180;
         return new Matrix(new double[][] {
-                new double[] { Math.cos(radians), 0, Math.sin(radians) },
-                new double[] { 0, 1, 0 },
-                new double[] { -Math.sin(radians), 0, Math.cos(radians) } });
+                new double[] { Math.cos(radians), 0, Math.sin(radians), 0 },
+                new double[] { 0, 1, 0, 0 },
+                new double[] { -Math.sin(radians), 0, Math.cos(radians), 0 },
+                new double[] { 0, 0, 0, 1 } });
     }
 
     /**
@@ -61,9 +68,10 @@ public class Matrix {
     public static Matrix rotateZ(double degrees) {
         double radians = degrees * Math.PI / 180;
         return new Matrix(new double[][] {
-                new double[] { Math.cos(radians), -Math.sin(radians), 0 },
-                new double[] { Math.sin(radians), Math.cos(radians), 0 },
-                new double[] { 0, 0, 1 } });
+                new double[] { Math.cos(radians), -Math.sin(radians), 0, 0 },
+                new double[] { Math.sin(radians), Math.cos(radians), 0, 0 },
+                new double[] { 0, 0, 1, 0 },
+                new double[] { 0, 0, 0, 1 } });
     }
 
     public boolean equals(Object other) {
@@ -111,18 +119,16 @@ public class Matrix {
      * Multiplies this matrix by the given vector, and returns the result.
      */
     public Vec3 times(Vec3 vector) {
-        int firstRows = values.length;
-        int firstColumns = values[0].length;
-        if (firstColumns != 3 || firstRows != 3) {
+        if (values.length != 4 || values[0].length != 4) {
             throw new IllegalArgumentException(
-                    "Number of rows in second matrix and number of columns in first matrix must be three.");
+                    "Only 4x4 matrices can be multiplied by vectors.");
         }
 
-        double[] result = new double[firstRows];
-        for (int firstRow = 0; firstRow < firstRows; ++firstRow) {
-            double sum = (values[firstRow][0] * vector.x) + (values[firstRow][1] * vector.y)
-                    + (values[firstRow][2] * vector.z);
-            result[firstRow] = sum;
+        double[] result = new double[3];
+        for (int row = 0; row < 3; ++row) {
+            double sum = values[row][0] * vector.x + values[row][1] * vector.y + values[row][2] * vector.z
+                    + values[row][3];
+            result[row] = sum;
         }
 
         return new Vec3(result[0], result[1], result[2]);
