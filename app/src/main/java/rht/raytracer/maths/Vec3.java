@@ -20,6 +20,10 @@ public class Vec3 {
         }
     }
 
+    public String toString() {
+        return "(" + x + ", " + y + ", " + z + ")";
+    }
+
     public Vec3 times(double scalar) {
         return new Vec3(x * scalar, y * scalar, z * scalar);
     }
