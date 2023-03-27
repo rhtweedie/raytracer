@@ -21,6 +21,10 @@ public class TransformedTest {
         Ray ray = new Ray(new Vec3(1, -1, 0), new Vec3(0, 1, 0));
         double intersectionDistance = transformedSphere.intersect(ray);
         assertEquals(intersectionDistance, 2.0, EPSILON);
+
+        Vec3 intersectionPoint = ray.distanceAlong(intersectionDistance);
+        Vec3 normal = transformedSphere.normalAtPoint(intersectionPoint);
+        assertVecEquals(normal, new Vec3(0, -1, 0), EPSILON);
     }
 
     @Test
