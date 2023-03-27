@@ -1,5 +1,6 @@
 package rht.raytracer;
 
+import rht.raytracer.maths.Matrix;
 import rht.raytracer.maths.Vec3;
 
 public class Ray {
@@ -22,5 +23,10 @@ public class Ray {
 
     public Vec3 distanceAlong(double distance) {
         return this.origin.plus(this.direction.times(distance));
+    }
+
+    public Ray transform(Matrix transformation) {
+        return new Ray(transformation.times(origin),
+                transformation.linearTimes(direction).normalise());
     }
 }

@@ -5,10 +5,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import rht.raytracer.maths.Matrix;
 import rht.raytracer.maths.Vec3;
 import rht.raytracer.shapes.Plane;
 import rht.raytracer.shapes.Shape;
 import rht.raytracer.shapes.Sphere;
+import rht.raytracer.shapes.Transformed;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -35,7 +37,11 @@ public class RayTracer extends JPanel {
         // Medium spheres
         objects.add(new Shape(new Sphere(new Vec3(-1.0, -1.0, 5.0), 1.0), new Colour(1.0, 0.9, 0.9),
                 new Colour(0.2, 0.2, 0.2)));
-        objects.add(new Shape(new Sphere(new Vec3(0.5, 0.5, 0.0), 0.5), new Colour(1.0, 0.5, 0.0)));
+        Sphere sphere = new Sphere(new Vec3(0, 0, 0.0), 0.5);
+        Transformed longSphere = new Transformed(sphere,
+                Matrix.translation(0.5, -0.5, 0).times(Matrix.scale(1, 3, 1)));
+        objects.add(new Shape(longSphere, new Colour(1.0, 0.5, 0.0)));
+
         // Little spheres
         for (double x = -1.6; x <= -0.5; x += 0.3) {
             for (double z = 0.0; z <= 2.0; z += 0.3) {

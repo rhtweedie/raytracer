@@ -1,6 +1,8 @@
 package rht.raytracer.maths;
 
 import static org.junit.Assert.assertEquals;
+import static rht.raytracer.maths.AssertHelpers.assertVecEquals;
+import static rht.raytracer.maths.AssertHelpers.assertMatrixEquals;
 
 import org.junit.Test;
 
@@ -34,7 +36,7 @@ public class MatrixTest {
         Matrix inverseA = a.inverse();
         Matrix identity = new Matrix(new double[][] { new double[] { 1, 0 }, new double[] { 0, 1 } });
 
-        assertMatrixEquals(identity, inverseA.times(a));
+        assertMatrixEquals(identity, inverseA.times(a), EPSILON);
     }
 
     @Test
@@ -42,7 +44,7 @@ public class MatrixTest {
         Matrix scale = Matrix.scale(2.0, -1.0, 0.5);
         Vec3 vector = new Vec3(5.0, 6.0, -7.0);
 
-        assertVecEquals(new Vec3(10.0, -6.0, -3.5), scale.times(vector));
+        assertVecEquals(new Vec3(10.0, -6.0, -3.5), scale.times(vector), EPSILON);
     }
 
     @Test
@@ -50,7 +52,7 @@ public class MatrixTest {
         Matrix scale = Matrix.translation(2.0, -1.0, 0.5);
         Vec3 vector = new Vec3(5.0, 6.0, -7.0);
 
-        assertVecEquals(new Vec3(7.0, 5.0, -6.5), scale.times(vector));
+        assertVecEquals(new Vec3(7.0, 5.0, -6.5), scale.times(vector), EPSILON);
     }
 
     @Test
@@ -58,23 +60,7 @@ public class MatrixTest {
         Matrix scale = Matrix.rotateX(90);
         Vec3 vector = new Vec3(5.0, 6.0, -7.0);
 
-        assertVecEquals(new Vec3(5.0, 7.0, 6.0), scale.times(vector));
+        assertVecEquals(new Vec3(5.0, 7.0, 6.0), scale.times(vector), EPSILON);
 
-    }
-
-    private void assertMatrixEquals(Matrix expected, Matrix actual) {
-        assertEquals(expected.values.length, actual.values.length);
-        for (int i = 0; i < expected.values.length; ++i) {
-            assertEquals(expected.values[i].length, actual.values[i].length);
-            for (int j = 0; j < expected.values[i].length; ++j) {
-                assertEquals(expected.values[i][j], actual.values[i][j], EPSILON);
-            }
-        }
-    }
-
-    private void assertVecEquals(Vec3 expected, Vec3 actual) {
-        assertEquals(expected.x, actual.x, EPSILON);
-        assertEquals(expected.y, actual.y, EPSILON);
-        assertEquals(expected.z, actual.z, EPSILON);
     }
 }
