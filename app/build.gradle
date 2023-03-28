@@ -7,6 +7,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.yaml:snakeyaml:2.0'
     testImplementation 'junit:junit:4.13.2'
 }
 
