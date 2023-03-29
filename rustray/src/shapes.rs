@@ -1,8 +1,9 @@
 pub mod sphere;
 
 use crate::{maths::vec::Vector, ray::Ray};
+use std::fmt::Debug;
 
-pub trait Shape {
+pub trait Shape: Debug {
     /// Returns the distance at which the given ray intersects the object, or `None` if it never
     /// does.
     fn intersect(&self, ray: &Ray) -> Option<f64>;
