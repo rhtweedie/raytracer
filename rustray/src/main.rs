@@ -1,0 +1,3 @@
+mod maths;
+
+fn main() {}
