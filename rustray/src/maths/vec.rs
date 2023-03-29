@@ -1,3 +1,5 @@
+use std::ops::Add;
+
 #[derive(Clone, Debug, PartialEq)]
 pub struct Vector<const LENGTH: usize>([f64; LENGTH]);
 
@@ -11,6 +13,26 @@ impl<const LENGTH: usize> Vector<LENGTH> {
     }
 }
 
+impl<const LENGTH: usize> Add for &Vector<LENGTH> {
+    type Output = Vector<LENGTH>;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        let mut result = self.0.clone();
+        for i in 0..LENGTH {
+            result[i] += rhs.0[i];
+        }
+        Vector(result)
+    }
+}
+
+impl<const LENGTH: usize> Add for Vector<LENGTH> {
+    type Output = Vector<LENGTH>;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        &self + &rhs
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -19,5 +41,13 @@ mod tests {
     fn length() {
         let v = Vector([3.0, 4.0, 0.0]);
         assert_eq!(v.length(), 5.0);
+    }
+
+    #[test]
+    fn add() {
+        let a = Vector([3.0, 4.0, 0.0]);
+        let b = Vector([5.0, -4.0, -1.0]);
+        assert_eq!(&a + &b, Vector([8.0, 0.0, -1.0]));
+        assert_eq!(a + b, Vector([8.0, 0.0, -1.0]));
     }
 }
