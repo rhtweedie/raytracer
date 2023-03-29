@@ -1,4 +1,4 @@
-use std::ops::{Add, Sub};
+use std::ops::{Add, Mul, Sub};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Vector<const LENGTH: usize>([f64; LENGTH]);
@@ -53,6 +53,26 @@ impl<const LENGTH: usize> Sub for Vector<LENGTH> {
     }
 }
 
+impl<const LENGTH: usize> Mul for &Vector<LENGTH> {
+    type Output = f64;
+
+    fn mul(self, rhs: Self) -> Self::Output {
+        let mut result = 0.0;
+        for i in 0..LENGTH {
+            result += self.0[i] * rhs.0[i];
+        }
+        result
+    }
+}
+
+impl<const LENGTH: usize> Mul for Vector<LENGTH> {
+    type Output = f64;
+
+    fn mul(self, rhs: Self) -> Self::Output {
+        &self * &rhs
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -77,5 +97,13 @@ mod tests {
         let b = Vector([5.0, -4.0, -1.0]);
         assert_eq!(&a - &b, Vector([-2.0, 8.0, 1.0]));
         assert_eq!(a - b, Vector([-2.0, 8.0, 1.0]));
+    }
+
+    #[test]
+    fn dot() {
+        let a = Vector([3.0, 4.0, 0.0]);
+        let b = Vector([5.0, -4.0, -1.0]);
+        assert_eq!(&a * &b, -1.0);
+        assert_eq!(a * b, -1.0);
     }
 }
