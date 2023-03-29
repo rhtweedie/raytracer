@@ -8,7 +8,9 @@ pub struct Colour {
 }
 
 impl Colour {
-    pub fn new(r: f64, g: f64, b: f64) -> Self {
+    pub const BLACK: Self = Self::new(0.0, 0.0, 0.0);
+
+    pub const fn new(r: f64, g: f64, b: f64) -> Self {
         Self { r, g, b }
     }
 }
