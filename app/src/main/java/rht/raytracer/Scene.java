@@ -36,7 +36,6 @@ public class Scene {
      *         reflectivity.
      */
     public Colour colourForRay(Ray ray, int recursionLimit, Shape ignored) {
-
         ObjectAndDistance closest = findFirstIntersectionExcept(ray, ignored);
         if (closest == null) {
             return new Colour(0, 0, 0);
@@ -107,9 +106,7 @@ public class Scene {
             }
         }
 
-        if (closest == null)
-
-        {
+        if (closest == null) {
             return null;
         } else {
             return new ObjectAndDistance(closest, closestIntersection);
