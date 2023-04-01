@@ -16,12 +16,15 @@ objects:
   - shape: Plane
     centre: [1.5, 0, 0]
     normal: [-1, 0, 0]
-    colour: WHITE
+    colour: [1, 1, 1]
+
 lights:
-  - position: [0 -5, -5]
-    colour: WHITE
+  - position: [0, -5, -5]
+    colour: [1, 1, 1]
+    
   - position: [-1, 0.7, 1]
     colour: [0.2, 0.15, 0.2]
+
 camera:
   position: [0, 0, -5]
   frame_centre: [0, 0, -2]

@@ -82,24 +82,61 @@ public class RayTracer extends JPanel {
             ShapeType shapeType;
             switch (shapeName) {
                 case "Sphere":
-                    List<Float> centreList = (List<Float>) object.get("centre");
+                    List<Object> centreList = (List<Object>) object.get("centre");
                     if (centreList.size() != 3) {
                         throw new IllegalArgumentException("sphere centre had unexpected length " + centreList.size());
                     }
-                    Vec3 centre = new Vec3(centreList.get(0), centreList.get(1), centreList.get(2));
-                    double radius = (Float) object.get("radius");
+                    Vec3 centre = new Vec3(toDouble(centreList.get(0)), toDouble(centreList.get(1)),
+                            toDouble(centreList.get(2)));
+                    double radius = toDouble(object.get("radius"));
                     shapeType = new Sphere(centre, radius);
                     break;
                 case "Plane":
+                    List<Object> planeCentreList = (List<Object>) object.get("centre");
+                    if (planeCentreList.size() != 3) {
+                        throw new IllegalArgumentException(
+                                "plane centre had unexpected length " + planeCentreList.size());
+                    }
+                    Vec3 planeCentre = new Vec3(toDouble(planeCentreList.get(0)), toDouble(planeCentreList.get(1)),
+                            toDouble(planeCentreList.get(2)));
+                    List<Object> planeNormalList = (List<Object>) object.get("normal");
+                    if (planeNormalList.size() != 3) {
+                        throw new IllegalArgumentException(
+                                "plane normal had unexpected length " + planeNormalList.size());
+                    }
+                    Vec3 planeNormal = new Vec3(toDouble(planeNormalList.get(0)), toDouble(planeNormalList.get(1)),
+                            toDouble(planeNormalList.get(2)));
+                    shapeType = new Plane(planeNormal, planeNormal);
+                    break;
                 default:
                     throw new IllegalArgumentException("Unexpected shape " + shapeName);
             }
-            List<Float> colourList = (List<Float>) object.get("colour");
+            List<Object> colourList = (List<Object>) object.get("colour");
             if (colourList.size() != 3) {
                 throw new IllegalArgumentException("Colour had unexpected length " + colourList.size());
             }
-            Colour colour = new Colour(colourList.get(0), colourList.get(1), colourList.get(2));
+            Colour colour = new Colour(toDouble(colourList.get(0)), toDouble(colourList.get(1)),
+                    toDouble(colourList.get(2)));
             objects.add(new Shape(shapeType, colour));
+        }
+
+        for (Object l : yamlLights) {
+            Map<String, Object> light = (Map<String, Object>) l;
+            List<Object> position = (List<Object>) light.get("position");
+            if (position.size() != 3) {
+                throw new IllegalArgumentException(
+                        "light position had unexpected length " + position.size());
+            }
+            Vec3 lightPosition = new Vec3(toDouble(position.get(0)), toDouble(position.get(1)),
+                    toDouble(position.get(2)));
+            List<Object> colour = (List<Object>) light.get("colour");
+            if (colour.size() != 3) {
+                throw new IllegalArgumentException(
+                        "light colour had unexpected length " + colour.size());
+            }
+            Colour lightColour = new Colour(toDouble(colour.get(0)), toDouble(colour.get(1)),
+                    toDouble(colour.get(2)));
+            lights.add(new Light(lightPosition, lightColour));
         }
         Scene scene = new Scene(objects, lights);
         Camera camera = new Camera(new Vec3(0.0, 0.0, -5.0), new Vec3(0.0, 0.0, -2.0), new Vec3(1.0, 0.0, 0.0),
