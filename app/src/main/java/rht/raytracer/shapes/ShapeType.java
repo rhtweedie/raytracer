@@ -12,7 +12,7 @@ public interface ShapeType {
     public Double intersect(Ray ray);
 
     /**
-     * Returns the normal vector on the surface of a sphere at a given point.
+     * Returns the normal vector on the surface of the object at the given point.
      * 
      * @param pointOnSurface The point to find the normal at
      */
