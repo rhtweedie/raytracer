@@ -107,6 +107,17 @@ public class RayTracer extends JPanel {
         return new RayTracer(scene, camera);
     }
 
+    private static double toDouble(Object value) {
+        if (value instanceof Double) {
+            return (Double) value;
+        } else if (value instanceof Integer) {
+            return (Integer) value;
+        } else {
+            throw new IllegalArgumentException("Input must be of type integer or a float.");
+        }
+
+    }
+
     private void render() {
         for (int x = 0; x < WIDTH; ++x) {
             for (int y = 0; y < HEIGHT; ++y) {
