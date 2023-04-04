@@ -1,7 +1,7 @@
 use std::ops::{Add, Div, Mul, Sub};
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct Vector<const LENGTH: usize>([f64; LENGTH]);
+pub struct Vector<const LENGTH: usize>(pub [f64; LENGTH]);
 
 impl<const LENGTH: usize> Vector<LENGTH> {
     pub fn squared(&self) -> f64 {
