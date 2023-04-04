@@ -12,11 +12,20 @@ use crate::{
     scene::{Light, Object, Scene},
     shapes::sphere::Sphere,
 };
+use png::{BitDepth, ColorType, Encoder};
+use std::{env, fs::File, io::BufWriter, process::exit};
 
 const WIDTH: u32 = 1000;
 const HEIGHT: u32 = 1000;
 
 fn main() {
+    let args = env::args().collect::<Vec<_>>();
+    if args.len() != 2 {
+        eprintln!("Usage:");
+        eprintln!("  {} <output.png>", args[0]);
+        exit(1);
+    }
+
     let scene = Scene {
         objects: vec![Object {
             shape: Box::new(Sphere {
@@ -44,6 +53,7 @@ fn main() {
         y_direction: Vector([0.0, 1.0, 0.0]),
     };
     let image = render(&scene, &camera, WIDTH, HEIGHT);
+    write_png(&args[1], WIDTH, HEIGHT, &image);
 }
 
 fn render(scene: &Scene, camera: &Camera, width: u32, height: u32) -> Vec<u8> {
@@ -59,4 +69,16 @@ fn render(scene: &Scene, camera: &Camera, width: u32, height: u32) -> Vec<u8> {
         }
     }
     image
+}
+
+fn write_png(filename: &str, width: u32, height: u32, image: &[u8]) {
+    let file = File::create(filename).expect("Failed to open output file");
+    let writer = BufWriter::new(file);
+    let mut encoder = Encoder::new(writer, width, height);
+    encoder.set_color(ColorType::Rgb);
+    encoder.set_depth(BitDepth::Eight);
+    let mut writer = encoder.write_header().expect("Failed to write header");
+    writer
+        .write_image_data(&image)
+        .expect("Failed to write image data");
 }
