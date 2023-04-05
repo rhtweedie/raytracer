@@ -112,3 +112,33 @@ fn reflect_at(
         incident_direction - &(surface_normal * (2.0 * (surface_normal * incident_direction)));
     Ray::new(intersection_point, &reflected_direction)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::shapes::sphere::Sphere;
+
+    #[test]
+    fn colour_for_ray_with_sphere() {
+        let scene = Scene {
+            objects: vec![Object {
+                shape: Box::new(Sphere {
+                    centre: Vector([2.0, 0.0, 0.0]),
+                    radius: 1.0,
+                }),
+                colour: Colour::new(1.0, 1.0, 0.0),
+                reflection_colour: Colour::BLACK,
+            }],
+            lights: vec![Light {
+                position: Vector([0.0, 0.0, 0.0]),
+                colour: Colour::new(1.0, 0.0, 1.0),
+            }],
+        };
+
+        let ray = Ray {
+            origin: Vector([0.0, 0.0, 0.0]),
+            direction: Vector([1.0, 0.0, 0.0]),
+        };
+        assert_eq!(scene.colour_for_ray(&ray), Colour::new(40.0, 0.0, 0.0));
+    }
+}
