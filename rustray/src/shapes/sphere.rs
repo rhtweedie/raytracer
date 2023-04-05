@@ -26,3 +26,51 @@ impl Shape for Sphere {
         (point - &self.centre).normalise()
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn intersect() {
+        let sphere = Sphere {
+            centre: Vector([0.0, 0.0, 0.0]),
+            radius: 1.0,
+        };
+
+        let distance_perpendicular = sphere.intersect(&Ray::new(
+            &Vector([0.0, -5.0, 0.0]),
+            &Vector([0.0, 1.0, 0.0]),
+        ));
+        assert_eq!(distance_perpendicular, Some(4.0));
+
+        let distance_parallel = sphere.intersect(&Ray::new(
+            &Vector([0.0, -5.0, 0.0]),
+            &Vector([1.0, 0.0, 0.0]),
+        ));
+        assert_eq!(distance_parallel, None);
+
+        let distance_away = sphere.intersect(&Ray::new(
+            &Vector([0.0, -5.0, 0.0]),
+            &Vector([1.0, -1.0, -1.0]),
+        ));
+        assert_eq!(distance_away, None);
+
+        let distance_inside = sphere.intersect(&Ray::new(
+            &Vector([0.0, 0.0, 0.0]),
+            &Vector([1.0, -1.0, -1.0]),
+        ));
+        assert_eq!(distance_inside, None);
+    }
+
+    #[test]
+    fn normal_at_point() {
+        let sphere = Sphere {
+            centre: Vector([0.0, 0.0, 0.0]),
+            radius: 2.0,
+        };
+
+        let normal = sphere.normal_at(&Vector([0.0, 0.0, 2.0]));
+        assert_eq!(normal, Vector([0.0, 0.0, 1.0]));
+    }
+}
