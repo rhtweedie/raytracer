@@ -1,3 +1,4 @@
+pub mod plane;
 pub mod sphere;
 
 use crate::{maths::vec::Vector, ray::Ray};
