@@ -50,7 +50,7 @@ impl Scene {
             {
                 total_incident_light = total_incident_light
                     + &light.colour
-                        * (&dot_product * BRIGHTNESS_CORRECTION_FACTOR
+                        * (dot_product * BRIGHTNESS_CORRECTION_FACTOR
                             / (light_distance * light_distance));
             }
         }

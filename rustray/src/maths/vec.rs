@@ -22,7 +22,7 @@ impl<const LENGTH: usize> Add for &Vector<LENGTH> {
     type Output = Vector<LENGTH>;
 
     fn add(self, rhs: Self) -> Self::Output {
-        let mut result = self.0.clone();
+        let mut result = self.0;
         for i in 0..LENGTH {
             result[i] += rhs.0[i];
         }
@@ -42,7 +42,7 @@ impl<const LENGTH: usize> Sub for &Vector<LENGTH> {
     type Output = Vector<LENGTH>;
 
     fn sub(self, rhs: Self) -> Self::Output {
-        let mut result = self.0.clone();
+        let mut result = self.0;
         for i in 0..LENGTH {
             result[i] -= rhs.0[i];
         }
@@ -82,9 +82,9 @@ impl<const LENGTH: usize> Mul<f64> for &Vector<LENGTH> {
     type Output = Vector<LENGTH>;
 
     fn mul(self, rhs: f64) -> Self::Output {
-        let mut result = self.0.clone();
-        for i in 0..LENGTH {
-            result[i] *= rhs;
+        let mut result = self.0;
+        for component in &mut result {
+            *component *= rhs;
         }
         Vector(result)
     }
@@ -102,9 +102,9 @@ impl<const LENGTH: usize> Div<f64> for &Vector<LENGTH> {
     type Output = Vector<LENGTH>;
 
     fn div(self, rhs: f64) -> Self::Output {
-        let mut result = self.0.clone();
-        for i in 0..LENGTH {
-            result[i] /= rhs;
+        let mut result = self.0;
+        for component in &mut result {
+            *component /= rhs;
         }
         Vector(result)
     }

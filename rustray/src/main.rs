@@ -89,6 +89,6 @@ fn write_png(filename: &str, width: u32, height: u32, image: &[u8]) {
     encoder.set_depth(BitDepth::Eight);
     let mut writer = encoder.write_header().expect("Failed to write header");
     writer
-        .write_image_data(&image)
+        .write_image_data(image)
         .expect("Failed to write image data");
 }
