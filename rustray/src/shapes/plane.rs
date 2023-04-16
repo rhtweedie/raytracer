@@ -8,8 +8,8 @@ pub struct Plane {
 
 impl Shape for Plane {
     fn intersect(&self, ray: &Ray) -> Option<f64> {
-        let denominator = &self.normal * &ray.direction;
-        let numerator = &self.normal * &(&self.centre - &ray.origin);
+        let denominator = self.normal * ray.direction;
+        let numerator = self.normal * (self.centre - ray.origin);
         if denominator == 0.0 {
             return None;
         }
@@ -22,8 +22,8 @@ impl Shape for Plane {
         }
     }
 
-    fn normal_at(&self, _point: &Vector<3>) -> Vector<3> {
-        self.normal.clone()
+    fn normal_at(&self, _point: Vector<3>) -> Vector<3> {
+        self.normal
     }
 }
 
@@ -38,21 +38,17 @@ mod tests {
             normal: Vector([0.0, -1.0, 0.0]),
         };
 
-        let distance_perpendicular = plane.intersect(&Ray::new(
-            &Vector([0.0, -5.0, 0.0]),
-            &Vector([0.0, 1.0, 0.0]),
-        ));
+        let distance_perpendicular =
+            plane.intersect(&Ray::new(Vector([0.0, -5.0, 0.0]), Vector([0.0, 1.0, 0.0])));
         assert_eq!(distance_perpendicular, Some(5.0));
 
-        let distance_parallel = plane.intersect(&Ray::new(
-            &Vector([1.0, -1.0, 2.0]),
-            &Vector([1.0, 0.0, 0.0]),
-        ));
+        let distance_parallel =
+            plane.intersect(&Ray::new(Vector([1.0, -1.0, 2.0]), Vector([1.0, 0.0, 0.0])));
         assert_eq!(distance_parallel, None);
 
         let distance_away = plane.intersect(&Ray::new(
-            &Vector([1.0, -1.0, 2.0]),
-            &Vector([1.0, -1.0, -1.0]),
+            Vector([1.0, -1.0, 2.0]),
+            Vector([1.0, -1.0, -1.0]),
         ));
         assert_eq!(distance_away, None);
     }

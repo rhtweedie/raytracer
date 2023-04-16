@@ -10,5 +10,5 @@ pub trait Shape: Debug {
     fn intersect(&self, ray: &Ray) -> Option<f64>;
 
     /// Returns the normal vector at the given point on the surface of the shape.
-    fn normal_at(&self, point: &Vector<3>) -> Vector<3>;
+    fn normal_at(&self, point: Vector<3>) -> Vector<3>;
 }

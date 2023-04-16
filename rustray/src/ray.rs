@@ -8,14 +8,14 @@ pub struct Ray {
 }
 
 impl Ray {
-    pub fn new(origin: &Vector<3>, direction: &Vector<3>) -> Self {
+    pub fn new(origin: Vector<3>, direction: Vector<3>) -> Self {
         Self {
-            origin: origin.clone(),
+            origin,
             direction: direction.normalise(),
         }
     }
 
     pub fn distance_along(&self, distance: f64) -> Vector<3> {
-        &self.origin + &(&self.direction * distance)
+        self.origin + (self.direction * distance)
     }
 }

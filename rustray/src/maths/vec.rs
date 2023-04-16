@@ -1,6 +1,6 @@
 use std::ops::{Add, Div, Mul, Sub};
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq)]
 pub struct Vector<const LENGTH: usize>(pub [f64; LENGTH]);
 
 impl<const LENGTH: usize> Vector<LENGTH> {
@@ -14,11 +14,11 @@ impl<const LENGTH: usize> Vector<LENGTH> {
 
     /// Returns a unit vector pointing in the same direction as this one.
     pub fn normalise(&self) -> Self {
-        self / self.length()
+        *self / self.length()
     }
 }
 
-impl<const LENGTH: usize> Add for &Vector<LENGTH> {
+impl<const LENGTH: usize> Add for Vector<LENGTH> {
     type Output = Vector<LENGTH>;
 
     fn add(self, rhs: Self) -> Self::Output {
@@ -30,15 +30,7 @@ impl<const LENGTH: usize> Add for &Vector<LENGTH> {
     }
 }
 
-impl<const LENGTH: usize> Add for Vector<LENGTH> {
-    type Output = Vector<LENGTH>;
-
-    fn add(self, rhs: Self) -> Self::Output {
-        &self + &rhs
-    }
-}
-
-impl<const LENGTH: usize> Sub for &Vector<LENGTH> {
+impl<const LENGTH: usize> Sub for Vector<LENGTH> {
     type Output = Vector<LENGTH>;
 
     fn sub(self, rhs: Self) -> Self::Output {
@@ -50,15 +42,7 @@ impl<const LENGTH: usize> Sub for &Vector<LENGTH> {
     }
 }
 
-impl<const LENGTH: usize> Sub for Vector<LENGTH> {
-    type Output = Vector<LENGTH>;
-
-    fn sub(self, rhs: Self) -> Self::Output {
-        &self - &rhs
-    }
-}
-
-impl<const LENGTH: usize> Mul for &Vector<LENGTH> {
+impl<const LENGTH: usize> Mul for Vector<LENGTH> {
     type Output = f64;
 
     fn mul(self, rhs: Self) -> Self::Output {
@@ -70,15 +54,7 @@ impl<const LENGTH: usize> Mul for &Vector<LENGTH> {
     }
 }
 
-impl<const LENGTH: usize> Mul for Vector<LENGTH> {
-    type Output = f64;
-
-    fn mul(self, rhs: Self) -> Self::Output {
-        &self * &rhs
-    }
-}
-
-impl<const LENGTH: usize> Mul<f64> for &Vector<LENGTH> {
+impl<const LENGTH: usize> Mul<f64> for Vector<LENGTH> {
     type Output = Vector<LENGTH>;
 
     fn mul(self, rhs: f64) -> Self::Output {
@@ -90,15 +66,7 @@ impl<const LENGTH: usize> Mul<f64> for &Vector<LENGTH> {
     }
 }
 
-impl<const LENGTH: usize> Mul<f64> for Vector<LENGTH> {
-    type Output = Vector<LENGTH>;
-
-    fn mul(self, rhs: f64) -> Self::Output {
-        &self * rhs
-    }
-}
-
-impl<const LENGTH: usize> Div<f64> for &Vector<LENGTH> {
+impl<const LENGTH: usize> Div<f64> for Vector<LENGTH> {
     type Output = Vector<LENGTH>;
 
     fn div(self, rhs: f64) -> Self::Output {
@@ -107,14 +75,6 @@ impl<const LENGTH: usize> Div<f64> for &Vector<LENGTH> {
             *component /= rhs;
         }
         Vector(result)
-    }
-}
-
-impl<const LENGTH: usize> Div<f64> for Vector<LENGTH> {
-    type Output = Vector<LENGTH>;
-
-    fn div(self, rhs: f64) -> Self::Output {
-        &self / rhs
     }
 }
 
@@ -132,7 +92,6 @@ mod tests {
     fn add() {
         let a = Vector([3.0, 4.0, 0.0]);
         let b = Vector([5.0, -4.0, -1.0]);
-        assert_eq!(&a + &b, Vector([8.0, 0.0, -1.0]));
         assert_eq!(a + b, Vector([8.0, 0.0, -1.0]));
     }
 
@@ -140,7 +99,6 @@ mod tests {
     fn sub() {
         let a = Vector([3.0, 4.0, 0.0]);
         let b = Vector([5.0, -4.0, -1.0]);
-        assert_eq!(&a - &b, Vector([-2.0, 8.0, 1.0]));
         assert_eq!(a - b, Vector([-2.0, 8.0, 1.0]));
     }
 
@@ -148,21 +106,18 @@ mod tests {
     fn dot() {
         let a = Vector([3.0, 4.0, 0.0]);
         let b = Vector([5.0, -4.0, -1.0]);
-        assert_eq!(&a * &b, -1.0);
         assert_eq!(a * b, -1.0);
     }
 
     #[test]
     fn scalar_multiply() {
         let v = Vector([5.0, -4.0, -1.0]);
-        assert_eq!(&v * 3.0, Vector([15.0, -12.0, -3.0]));
         assert_eq!(v * 3.0, Vector([15.0, -12.0, -3.0]));
     }
 
     #[test]
     fn scalar_divide() {
         let v = Vector([5.0, -4.0, -1.0]);
-        assert_eq!(&v / 2.0, Vector([2.5, -2.0, -0.5]));
         assert_eq!(v / 2.0, Vector([2.5, -2.0, -0.5]));
     }
 

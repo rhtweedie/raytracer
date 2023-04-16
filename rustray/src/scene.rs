@@ -26,19 +26,19 @@ impl Scene {
         };
 
         let intersection_point = ray.distance_along(distance);
-        let normal = closest.shape.normal_at(&intersection_point);
+        let normal = closest.shape.normal_at(intersection_point);
 
         // Find colour from lights.
         let mut total_incident_light = Colour::BLACK;
         for light in &self.lights {
-            let direction_to_light = &light.position - &intersection_point;
+            let direction_to_light = light.position - intersection_point;
             let light_distance = direction_to_light.length();
             let unit_direction_to_light = direction_to_light.normalise();
-            let dot_product = &normal * &unit_direction_to_light;
+            let dot_product = normal * unit_direction_to_light;
 
             // Check whether some other object is between us and the light.
             let first_object_towards_light = self.first_intersection(
-                &Ray::new(&intersection_point, &unit_direction_to_light),
+                &Ray::new(intersection_point, unit_direction_to_light),
                 Some(closest),
             );
 
@@ -58,7 +58,7 @@ impl Scene {
         let reflected_colour = if recursion_limit > 0 && closest.reflection_colour != Colour::BLACK
         {
             // Find colour from reflection.
-            let reflected_ray = reflect_at(&ray.direction, &intersection_point, &normal);
+            let reflected_ray = reflect_at(ray.direction, intersection_point, normal);
             self.colour_for_ray_internal(&reflected_ray, recursion_limit - 1, Some(closest))
         } else {
             Colour::BLACK
@@ -104,13 +104,13 @@ pub struct Light {
 
 /// Find the reflected ray at a point on the surface of a shape about the normal.
 fn reflect_at(
-    incident_direction: &Vector<3>,
-    intersection_point: &Vector<3>,
-    surface_normal: &Vector<3>,
+    incident_direction: Vector<3>,
+    intersection_point: Vector<3>,
+    surface_normal: Vector<3>,
 ) -> Ray {
     let reflected_direction =
-        incident_direction - &(surface_normal * (2.0 * (surface_normal * incident_direction)));
-    Ray::new(intersection_point, &reflected_direction)
+        incident_direction - surface_normal * (2.0 * (surface_normal * incident_direction));
+    Ray::new(intersection_point, reflected_direction)
 }
 
 #[cfg(test)]
