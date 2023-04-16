@@ -49,7 +49,7 @@ impl Scene {
                     > light_distance
             {
                 total_incident_light = total_incident_light
-                    + &light.colour
+                    + light.colour
                         * (dot_product * BRIGHTNESS_CORRECTION_FACTOR
                             / (light_distance * light_distance));
             }
@@ -64,7 +64,7 @@ impl Scene {
             Colour::BLACK
         };
 
-        &closest.colour * &total_incident_light + &closest.reflection_colour * &reflected_colour
+        closest.colour * total_incident_light + closest.reflection_colour * reflected_colour
     }
 
     fn first_intersection<'a>(
