@@ -10,7 +10,7 @@ use crate::{
     colour::Colour,
     maths::vec::Vector,
     scene::{Light, Object, Scene},
-    shapes::sphere::Sphere,
+    shapes::{plane::Plane, sphere::Sphere},
 };
 use png::{BitDepth, ColorType, Encoder};
 use std::{env, fs::File, io::BufWriter, process::exit};
@@ -27,14 +27,24 @@ fn main() {
     }
 
     let scene = Scene {
-        objects: vec![Object {
-            shape: Box::new(Sphere {
-                centre: Vector([-1.0, -1.0, 5.0]),
-                radius: 1.0,
-            }),
-            colour: Colour::new(1.0, 0.9, 0.9),
-            reflection_colour: Colour::new(0.2, 0.2, 0.2),
-        }],
+        objects: vec![
+            Object {
+                shape: Box::new(Sphere {
+                    centre: Vector([-1.0, -1.0, 5.0]),
+                    radius: 1.0,
+                }),
+                colour: Colour::new(1.0, 0.9, 0.9),
+                reflection_colour: Colour::new(0.2, 0.2, 0.2),
+            },
+            Object {
+                shape: Box::new(Plane {
+                    centre: Vector([1.5, 0.0, 0.0]),
+                    normal: Vector([-1.0, 0.0, 0.0]),
+                }),
+                colour: Colour::WHITE,
+                reflection_colour: Colour::BLACK,
+            },
+        ],
         lights: vec![
             Light {
                 position: Vector([0.0, -5.0, -5.0]),
