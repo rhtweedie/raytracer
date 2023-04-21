@@ -49,18 +49,18 @@ public class MatrixTest {
 
     @Test
     public void translateVector() {
-        Matrix scale = Matrix.translation(2.0, -1.0, 0.5);
+        Matrix translate = Matrix.translation(2.0, -1.0, 0.5);
         Vec3 vector = new Vec3(5.0, 6.0, -7.0);
 
-        assertVecEquals(new Vec3(7.0, 5.0, -6.5), scale.times(vector), EPSILON);
+        assertVecEquals(new Vec3(7.0, 5.0, -6.5), translate.times(vector), EPSILON);
     }
 
     @Test
     public void rotateVector() {
-        Matrix scale = Matrix.rotateX(90);
+        Matrix rotate = Matrix.rotateX(90);
         Vec3 vector = new Vec3(5.0, 6.0, -7.0);
 
-        assertVecEquals(new Vec3(5.0, 7.0, 6.0), scale.times(vector), EPSILON);
+        assertVecEquals(new Vec3(5.0, 7.0, 6.0), rotate.times(vector), EPSILON);
     }
 
     public void invertFour() {
