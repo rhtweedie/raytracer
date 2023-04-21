@@ -1,3 +1,4 @@
+use super::vec::Vector;
 use std::{
     f64::consts::PI,
     fmt::{self, Display, Formatter},
@@ -95,6 +96,29 @@ impl<const ROWS_A: usize, const COMMON: usize, const COLS_B: usize> Mul<Matrix<C
     }
 }
 
+impl Mul<Vector<3>> for &Matrix<4, 4> {
+    type Output = Vector<3>;
+
+    fn mul(self, rhs: Vector<3>) -> Self::Output {
+        let mut result = [0.0; 3];
+        for row in 0..3 {
+            result[row] = self.0[row][0] * rhs.0[0]
+                + self.0[row][1] * rhs.0[1]
+                + self.0[row][2] * rhs.0[2]
+                + self.0[row][3];
+        }
+        Vector(result)
+    }
+}
+
+impl Mul<Vector<3>> for Matrix<4, 4> {
+    type Output = Vector<3>;
+
+    fn mul(self, rhs: Vector<3>) -> Self::Output {
+        &self * rhs
+    }
+}
+
 impl<const ROWS: usize, const COLUMNS: usize> Display for Matrix<ROWS, COLUMNS> {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         for row in &self.0 {
@@ -124,5 +148,32 @@ mod tests {
 
         assert_eq!(&a * &b, Matrix([[19.0, 22.0], [43.0, 50.0]]));
         assert_eq!(&b * &a, Matrix([[23.0, 34.0], [31.0, 46.0]]));
+    }
+
+    #[test]
+    fn scale_vector() {
+        let scale = Matrix::scale(2.0, -1.0, 0.5);
+        let vector = Vector([5.0, 6.0, -7.0]);
+
+        assert_eq!(&scale * vector, Vector([10.0, -6.0, -3.5]));
+        assert_eq!(scale * vector, Vector([10.0, -6.0, -3.5]));
+    }
+
+    #[test]
+    fn translate_vector() {
+        let translate = Matrix::translation(2.0, -1.0, 0.5);
+        let vector = Vector([5.0, 6.0, -7.0]);
+
+        assert_eq!(&translate * vector, Vector([7.0, 5.0, -6.5]));
+        assert_eq!(translate * vector, Vector([7.0, 5.0, -6.5]));
+    }
+
+    #[test]
+    fn rotate_vector() {
+        let rotate = Matrix::rotateX(90.0);
+        let vector = Vector([5.0, 6.0, -7.0]);
+
+        assert_eq!(&rotate * vector, Vector([5.0, 7.0, 6.0]));
+        assert_eq!(rotate * vector, Vector([5.0, 7.0, 6.0]));
     }
 }
