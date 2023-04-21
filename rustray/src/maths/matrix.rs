@@ -5,6 +5,8 @@ use std::{
     ops::Mul,
 };
 
+const EPSILON: f64 = 1e-5;
+
 #[derive(Clone, Debug, PartialEq)]
 pub struct Matrix<const ROWS: usize, const COLUMNS: usize>(pub [[f64; COLUMNS]; ROWS]);
 
@@ -128,9 +130,55 @@ impl<const ROWS: usize, const COLUMNS: usize> Display for Matrix<ROWS, COLUMNS> 
     }
 }
 
+impl<const SIZE: usize> Matrix<SIZE, SIZE> {
+    /// Returns the inverse of the matrix, or `None` if it is not invertible.
+    pub fn inverse(&self) -> Option<Self> {
+        let mut working = self.0.clone();
+
+        for p in 0..SIZE {
+            let pivot = working[p][p];
+            if pivot.abs() < EPSILON {
+                return None;
+            }
+
+            // Update pivot column.
+            for i in 0..SIZE {
+                working[i][p] /= -pivot;
+            }
+            // Update other values.
+            for i in 0..SIZE {
+                for j in 0..SIZE {
+                    if i != p && j != p {
+                        working[i][j] += working[p][j] * working[i][p];
+                    }
+                }
+            }
+            // Update pivot row.
+            for j in 0..SIZE {
+                working[p][j] /= pivot;
+            }
+            // Update pivot value.
+            working[p][p] = 1.0 / pivot;
+        }
+
+        Some(Self(working))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn assert_matrix_eq<const ROWS: usize, const COLS: usize>(
+        a: Matrix<ROWS, COLS>,
+        b: Matrix<ROWS, COLS>,
+    ) {
+        for row in 0..ROWS {
+            for col in 0..COLS {
+                assert!((a.0[row][col] - b.0[row][col]).abs() < EPSILON);
+            }
+        }
+    }
 
     #[test]
     fn identity_times() {
@@ -148,6 +196,15 @@ mod tests {
 
         assert_eq!(&a * &b, Matrix([[19.0, 22.0], [43.0, 50.0]]));
         assert_eq!(&b * &a, Matrix([[23.0, 34.0], [31.0, 46.0]]));
+    }
+
+    #[test]
+    fn invert_two() {
+        let a = Matrix([[9.0, 6.0], [5.0, 7.0]]);
+        let inverse_a = a.inverse().unwrap();
+        let identity = Matrix([[1.0, 0.0], [0.0, 1.0]]);
+
+        assert_matrix_eq(inverse_a * a, identity);
     }
 
     #[test]
