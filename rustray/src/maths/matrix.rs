@@ -1,6 +1,7 @@
 use std::{
     f64::consts::PI,
     fmt::{self, Display, Formatter},
+    ops::Mul,
 };
 
 #[derive(Clone, Debug, PartialEq)]
@@ -64,11 +65,64 @@ impl Matrix<4, 4> {
     }
 }
 
+impl<const ROWS_A: usize, const COMMON: usize, const COLS_B: usize> Mul<&Matrix<COMMON, COLS_B>>
+    for &Matrix<ROWS_A, COMMON>
+{
+    type Output = Matrix<ROWS_A, COLS_B>;
+
+    fn mul(self, rhs: &Matrix<COMMON, COLS_B>) -> Self::Output {
+        let mut result = [[0.0; COLS_B]; ROWS_A];
+        for first_row in 0..ROWS_A {
+            for second_column in 0..COLS_B {
+                let mut sum = 0.0;
+                for i in 0..COMMON {
+                    sum += self.0[first_row][i] * rhs.0[i][second_column];
+                }
+                result[first_row][second_column] = sum;
+            }
+        }
+        Matrix(result)
+    }
+}
+
+impl<const ROWS_A: usize, const COMMON: usize, const COLS_B: usize> Mul<Matrix<COMMON, COLS_B>>
+    for Matrix<ROWS_A, COMMON>
+{
+    type Output = Matrix<ROWS_A, COLS_B>;
+
+    fn mul(self, rhs: Matrix<COMMON, COLS_B>) -> Self::Output {
+        &self * &rhs
+    }
+}
+
 impl<const ROWS: usize, const COLUMNS: usize> Display for Matrix<ROWS, COLUMNS> {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         for row in &self.0 {
             writeln!(f, "{:?}", row)?;
         }
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn identity_times() {
+        let a = Matrix([[1.0, 0.0], [0.0, 1.0]]);
+        let b = Matrix([[2.0, 3.0], [4.0, 5.0]]);
+
+        assert_eq!(&a * &b, b);
+        assert_eq!(&b * &a, b);
+    }
+
+    #[test]
+    fn times_twos() {
+        let a = Matrix([[1.0, 2.0], [3.0, 4.0]]);
+        let b = Matrix([[5.0, 6.0], [7.0, 8.0]]);
+
+        assert_eq!(&a * &b, Matrix([[19.0, 22.0], [43.0, 50.0]]));
+        assert_eq!(&b * &a, Matrix([[23.0, 34.0], [31.0, 46.0]]));
     }
 }
