@@ -63,6 +63,7 @@ public class MatrixTest {
         assertVecEquals(new Vec3(5.0, 7.0, 6.0), rotate.times(vector), EPSILON);
     }
 
+    @Test
     public void invertFour() {
         Matrix a = new Matrix(new double[][] {
                 new double[] { 9, 6, 3, 5 },
