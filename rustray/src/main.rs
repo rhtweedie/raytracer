@@ -8,9 +8,9 @@ mod shapes;
 use crate::{
     camera::Camera,
     colour::Colour,
-    maths::vec::Vector,
+    maths::{matrix::Matrix, vec::Vector},
     scene::{Light, Object, Scene},
-    shapes::{plane::Plane, sphere::Sphere},
+    shapes::{plane::Plane, sphere::Sphere, transformed::Transformed},
 };
 use png::{BitDepth, ColorType, Encoder};
 use std::{env, fs::File, io::BufWriter, process::exit};
@@ -35,6 +35,25 @@ fn main() {
                 }),
                 colour: Colour::new(1.0, 0.9, 0.9),
                 reflection_colour: Colour::new(0.2, 0.2, 0.2),
+            },
+            Object {
+                shape: Box::new(Transformed::new(
+                    Sphere {
+                        centre: Vector([0.0, 0.0, 0.0]),
+                        radius: 0.5,
+                    },
+                    Matrix::translation(0.5, -0.5, 0.0) * Matrix::scale(1.0, 3.0, 1.0),
+                )),
+                colour: Colour::new(1.0, 0.5, 0.0),
+                reflection_colour: Colour::BLACK,
+            },
+            Object {
+                shape: Box::new(Plane {
+                    centre: Vector([0.0, 1.02, 0.0]),
+                    normal: Vector([0.0, -1.0, 0.0]),
+                }),
+                colour: Colour::new(0.8, 0.6, 0.8),
+                reflection_colour: Colour::new(0.7, 0.7, 0.7),
             },
             Object {
                 shape: Box::new(Plane {
