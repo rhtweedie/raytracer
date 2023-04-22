@@ -216,6 +216,19 @@ mod tests {
     }
 
     #[test]
+    fn invert_four() {
+        let a = Matrix([
+            [9.0, 6.0, 3.0, 5.0],
+            [5.0, 7.0, 3.0, 4.0],
+            [2.0, 6.0, 7.0, 1.0],
+            [5.0, 8.0, 9.0, 53.0],
+        ]);
+        let inverse_a = a.inverse().unwrap();
+
+        assert_matrix_eq(inverse_a * a, Matrix::identity());
+    }
+
+    #[test]
     fn scale_vector() {
         let scale = Matrix::scale(2.0, -1.0, 0.5);
         let vector = Vector([5.0, 6.0, -7.0]);
