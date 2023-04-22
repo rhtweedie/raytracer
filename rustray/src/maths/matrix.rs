@@ -131,6 +131,15 @@ impl<const ROWS: usize, const COLUMNS: usize> Display for Matrix<ROWS, COLUMNS> 
 }
 
 impl<const SIZE: usize> Matrix<SIZE, SIZE> {
+    /// Constructs an identity matrix.
+    pub fn identity() -> Self {
+        let mut values = [[0.0; SIZE]; SIZE];
+        for i in 0..SIZE {
+            values[i][i] = 1.0;
+        }
+        Self(values)
+    }
+
     /// Returns the inverse of the matrix, or `None` if it is not invertible.
     pub fn inverse(&self) -> Option<Self> {
         let mut working = self.0.clone();
@@ -182,7 +191,7 @@ mod tests {
 
     #[test]
     fn identity_times() {
-        let a = Matrix([[1.0, 0.0], [0.0, 1.0]]);
+        let a = Matrix::identity();
         let b = Matrix([[2.0, 3.0], [4.0, 5.0]]);
 
         assert_eq!(&a * &b, b);
@@ -202,9 +211,8 @@ mod tests {
     fn invert_two() {
         let a = Matrix([[9.0, 6.0], [5.0, 7.0]]);
         let inverse_a = a.inverse().unwrap();
-        let identity = Matrix([[1.0, 0.0], [0.0, 1.0]]);
 
-        assert_matrix_eq(inverse_a * a, identity);
+        assert_matrix_eq(inverse_a * a, Matrix::identity());
     }
 
     #[test]
