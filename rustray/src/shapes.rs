@@ -1,5 +1,6 @@
 pub mod plane;
 pub mod sphere;
+pub mod transformed;
 
 use crate::{maths::vec::Vector, ray::Ray};
 use std::fmt::Debug;

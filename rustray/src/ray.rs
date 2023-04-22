@@ -1,4 +1,4 @@
-use crate::maths::vec::Vector;
+use crate::maths::{matrix::Matrix, vec::Vector};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Ray {
@@ -17,5 +17,12 @@ impl Ray {
 
     pub fn distance_along(&self, distance: f64) -> Vector<3> {
         self.origin + (self.direction * distance)
+    }
+
+    pub fn transform(&self, transformation: &Matrix<4, 4>) -> Self {
+        Ray::new(
+            transformation * self.origin,
+            transformation.linear_times(self.direction),
+        )
     }
 }
