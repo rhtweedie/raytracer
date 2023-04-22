@@ -66,6 +66,18 @@ impl Matrix<4, 4> {
             [0.0, 0.0, 0.0, 1.0],
         ])
     }
+
+    /// Multiplies the first 3 rows and columns of this matrix by the given vector, and returns the
+    /// result.
+    ///
+    /// This performs only the linear part of the affine transformation.
+    pub fn linear_times(&self, vector: Vector<3>) -> Vector<3> {
+        Vector([
+            self.0[0][0] * vector.0[0] + self.0[0][1] * vector.0[1] + self.0[0][2] * vector.0[2],
+            self.0[1][0] * vector.0[0] + self.0[1][1] * vector.0[1] + self.0[1][2] * vector.0[2],
+            self.0[2][0] * vector.0[0] + self.0[2][1] * vector.0[1] + self.0[2][2] * vector.0[2],
+        ])
+    }
 }
 
 impl<const ROWS_A: usize, const COMMON: usize, const COLS_B: usize> Mul<&Matrix<COMMON, COLS_B>>
