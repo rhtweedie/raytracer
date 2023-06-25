@@ -106,8 +106,13 @@ public class RayTracer extends JPanel {
             lights.add(new Light(lightPosition, lightColour));
         }
         Scene scene = new Scene(objects, lights);
-        Camera camera = new Camera(new Vec3(0.0, 0.0, -5.0), new Vec3(0.0, 0.0, -2.0), new Vec3(1.0, 0.0, 0.0),
-                new Vec3(0.0, 1.0, 0.0));
+
+        Vec3 camPosition = arrayToVec3((List<Object>) yamlCamera.get("position"));
+        Vec3 camFrameCentre = arrayToVec3((List<Object>) yamlCamera.get("frame_centre"));
+        Vec3 camXDir = arrayToVec3((List<Object>) yamlCamera.get("x_direction"));
+        Vec3 camYDir = arrayToVec3((List<Object>) yamlCamera.get("y_direction"));
+        Camera camera = new Camera(camPosition, camFrameCentre, camXDir, camYDir);
+
         return new RayTracer(scene, camera);
     }
 
